@@ -15,9 +15,9 @@
                 </div>
                 
                 <div class="card-body p-4">
-                    <form method="post" novalidate>
+                    <form id="form" method="post" action="{% url 'payment:complete-order' %}">
                         {% csrf_token %}
-                        
+
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label for="name" class="form-label">Контактные данные</label>
@@ -57,7 +57,7 @@
                             <div class="col-md-8">
                                 <label for="id_city" class="form-label">Город</label>
                                 <input type="text" class="form-control form-control-lg" id="city" 
-                                       name="state" value="{{ shiping_adress.city }}" 
+                                       name="city" value="{{ shiping_adress.city }}" 
                                        required>
                             </div>
                             
@@ -69,8 +69,9 @@
                         </div>
                         
                         <div class="d-grid gap-2 mt-5">
-                            <button id='complete-order' type="submit" class="btn btn-dark btn-lg py-3">
-                                <i class="fas fa-check-circle me-2"></i> Подтвердить доставку
+                            <button id='complete-order-stripe' type="submit" class="btn btn-dark btn-lg py-3" 
+                                name="stripe-payment" value="stripe-payment">
+                                Оплатить с помощью Stripe
                             </button>
                             
                             <a href="{% url 'cart:cart-view' %}" class="btn btn-outline-secondary btn-lg py-3">
@@ -83,33 +84,6 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).on('submit', function(e){
-        e.preventDefault();
-
-        $.ajax({
-            type: 'POST',
-            url: '{% url "payment:complete-order" %}',
-            data: {
-                name: $('#name').val(),
-                email: $('#email').val(),
-                street_adress: $('#adress1').val(),
-                apartment_adress: $('#adress2').val(),
-                country: $('#country').val(),
-                city: $('#city').val(),
-                zipcode: $('#zipcode').val(),
-                csrfmiddlewaretoken: '{{ csrf_token }}',
-                action: 'payment'
-            },
-            success: function(response){
-                document.getElementById('lblCartCount').textContent=response.qty;
-            },
-            error: function(error){
-                console.log(error);
-            }
-        })
-    })
-</script>
 
 <style>
     .form-control, .form-select {

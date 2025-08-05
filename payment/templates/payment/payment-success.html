@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="fw-bold text-success mb-3">Заказ успешно оформлен!</h2>
+            <div class="alert alert-success bg-light border-success">
+                <p class="mb-1">Ожидайте доставку в ближайшее время.</p>
+                <p class="mb-0 fst">(Возможно, её принесут магические совы! 🦉)</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

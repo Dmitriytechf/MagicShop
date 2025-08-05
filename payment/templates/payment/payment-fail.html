@@ -6,7 +6,14 @@
 {% block content %}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <h3>Payment fail<h3>
+        <div class="col-md-8 text-center">
+            <div class="mb-4">
+                <i class="bi bi-x-circle-fill text-danger" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="fw-bold text-danger mb-3">Что-то пошло не так</h2>
+            <p class="lead">Кажется, лепреконы не могут оформить Ваш заказ.</p>
+            <p>Пожалуйста, повторите попытку</p>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -22,8 +22,11 @@ class UserCreateForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data['email'].lower()
         
-        if User.objects.filter(email=email).exists() or len(email) > 254:
-            raise forms.ValidationError('Email is already in user or to long')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Этот email уже используется')
+        
+        if len(email) > 254:
+            raise forms.ValidationError('Email слишком длинный')
 
         return email
 
