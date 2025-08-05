@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-dark text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-truck me-2"></i> Оформление доставки
+                    </h3>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        
+                        <div class="row g-3">
+                            <div class="col-md-12">
+                                <label for="name" class="form-label">Контактные данные</label>
+                                <input type="text" class="form-control form-control-lg" id="name" 
+                                       name="full_name" value="{{ shiping_adress.full_name }}" 
+                                       required>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label for="id_email" class="form-label">Электронная почта</label>
+                                <input type="email" class="form-control form-control-lg" id="email" 
+                                       name="email" value="{{ shiping_adress.email }}" 
+                                       required>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label for="id_street_adress" class="form-label">Адрес улицы</label>
+                                <input type="text" class="form-control form-control-lg" id="adress1" 
+                                       name="street_adress" value="{{ shiping_adress.street_adress }}" 
+                                       required>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label for="id_apartment_adress" class="form-label">Адрес квартиры или дома</label>
+                                <input type="text" class="form-control form-control-lg" id="adress2" 
+                                       name="apartment_adress" value="{{ shiping_adress.apartment_adress }}">
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <label for="id_country" class="form-label">Страна</label>
+                                <input type="text" class="form-control form-control-lg" id="country" 
+                                       name="country" value="{{ shiping_adress.country }}" 
+                                       required>
+                            </div>
+                            
+    
+                            <div class="col-md-8">
+                                <label for="id_city" class="form-label">Город</label>
+                                <input type="text" class="form-control form-control-lg" id="city" 
+                                       name="state" value="{{ shiping_adress.city }}" 
+                                       required>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label for="id_zip_code" class="form-label">Почтовый индекс</lab>
+                                <input type="text" class="form-control form-control-lg" id="zipcode" 
+                                       name="zip_code" value="{{ shiping_adress.zip_code }}">
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-5">
+                            <button id='complete-order' type="submit" class="btn btn-dark btn-lg py-3">
+                                <i class="fas fa-check-circle me-2"></i> Подтвердить доставку
+                            </button>
+                            
+                            <a href="{% url 'cart:cart-view' %}" class="btn btn-outline-secondary btn-lg py-3">
+                                <i class="fas fa-arrow-left me-2"></i> Вернуться в корзину
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).on('submit', function(e){
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "payment:complete-order" %}',
+            data: {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                street_adress: $('#adress1').val(),
+                apartment_adress: $('#adress2').val(),
+                country: $('#country').val(),
+                city: $('#city').val(),
+                zipcode: $('#zipcode').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'payment'
+            },
+            success: function(response){
+                document.getElementById('lblCartCount').textContent=response.qty;
+            },
+            error: function(error){
+                console.log(error);
+            }
+        })
+    })
+</script>
+
+<style>
+    .form-control, .form-select {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #002153ff;
+        box-shadow: 0 0 0 0.25rem rgba(18, 60, 122, 0.25);
+    }
+    
+    .card {
+        border-radius: 1rem;
+        overflow: hidden;
+    }
+    
+    .btn-dark {
+        background-color: #212529;
+        border-color: #212529;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-dark:hover {
+        background-color: #1a1e21;
+        border-color: #191c1f;
+        transform: translateY(-2px);
+    }
+    
+    /* Выравнивание меток */
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-3">
+    <div class="row g-3">
+        <div class="col-3 col-md-4">
+            <div class="sticky-top pt-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center p-3">
+                        {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" 
+                                 class="rounded-circle mb-2 mx-auto" 
+                                 alt="Аватар" style="width: 135px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'account/img/pustoi-avatar.webp' %}" 
+                             class="rounded-circle mb-2 mx-auto" 
+                             alt="Аватар" style="width: 150px; height: 150px;">
+                        {% endif %}
+                        <h3 class="mb-1">{{ user.username }}</h3>
+                        <p class="text-muted mb-2">{{ user.email }}</p>
+                        
+                        <div class="d-grid gap-2 mt-3">
+                            <a href="{% url 'account:profile' %}" class="btn btn-sm btn-outline-primary">
+                                Профиль
+                            </a>
+                            <a href="{% url 'account:update_profile' %}" class="btn btn-sm btn-outline-secondary">
+                                Редактировать
+                            </a>
+                            <a href="{% url 'account:logout' %}" class="btn btn-sm btn-outline-secondary">
+                                Выйти
+                            </a>
+                            <button onclick="confirmDelete()" class="btn btn-sm btn-outline-danger">
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-9 col-md-8 pt-4">
+            <div class="card shadow-sm h-100" id="profile-info">
+                <div class="card-header py-2 text-center">
+                    <h3 class="mb-0">Аккаунт</h3>
+                </div>
+                <div class="card-body p-4 ps-5">
+                    <div class="row g-4">
+                        <div class="col-md-6 mb-3">
+                            <div class="text-muted mb-1">Имя пользователя:</div>  
+                            <div class="fs-5">{{ user.username }}</div>  
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="text-muted mb-1">Email:</div>
+                            <div class="fs-5">{{ user.email }}</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="text-muted mb-1">Статус:</div>
+                            <div class="fs-5">{% if user.is_staff %}Администратор{% else %}Пользователь{% endif %}</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="text-muted mb-1">Последний вход:</div>
+                            <div class="fs-5">{{ user.last_login|date:"d.m.Y H:i" }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function confirmDelete(){
+    if (confirm('Вы действительно хотите удалить свой аккаунт? Это действие необратимо.')){
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{% url 'account:delete_account' %}";
+
+        // Добавляем CSRF токен
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrfmiddlewaretoken';
+        csrfInput.value = '{{ csrf_token }}';
+        form.appendChild(csrfInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+{% endblock %}
