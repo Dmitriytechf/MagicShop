@@ -153,8 +153,9 @@
 <script>
     $(document).on('click', '#add-button', function(e){
         e.preventDefault();
+        const $button = $(this);
         const productId = $('#add-button').val();
-        const productQty = $('#select option:selected').text();
+        const productQty = $('#select option:selected').val();
         $.ajax({
             type: 'POST',
             url: '{% url "cart:add-to-cart" %}',
@@ -165,17 +166,37 @@
                 action: 'post'
             },
             success: function(response){
-                document.getElementById('lblCartCount').textContent=response.qty
+                // Обновляем счетчик корзины
+                $('#lblCartCount').text(response.qty);
+
+                // Изменяем кнопку
+                $button.prop('disabled', true)
+                      .removeClass('btn-primary')
+                      .addClass('btn-vibrant-success')
+                      .html('<i class="bi bi-check-circle me-2"></i> В корзине');
+
+                // Можно добавить анимацию
+                $button.css('transform', 'scale(1.05)');
+                setTimeout(() => $button.css('transform', 'scale(1)'), 200);
             },
             error: function(error){
-                console.log(error)
+                console.log(error);
+                alert('Произошла ошибка при добавлении в корзину');
             }
         })
     })
-
 </script>
 
 <style>
+    .btn-vibrant-success {
+        background-color: #00ff00ff !important;
+        border-color:   #00ff00ff !important;
+        color: white !important;
+    }
+    .btn-vibrant-success:hover {
+        background-color: #0bf00bc6 !important;
+        border-color: #00ff00d6 !important;
+    }
     .product-image-container {
         display: flex;
         align-items: center;

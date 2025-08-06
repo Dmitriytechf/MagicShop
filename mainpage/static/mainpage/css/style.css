@@ -34,6 +34,7 @@ body {
     text-shadow: 0 0 10px rgba(255, 234, 9, 0.7);
     animation: flicker 5s infinite alternate;
     font-weight: bold;
+    font-family: 'Cinzel Decorative', cursive;
 }
 
 @keyframes flicker {
@@ -67,6 +68,7 @@ body {
     width: 500px;
     box-sizing: border-box;
     font-size: 1.7rem;
+    font-family: 'Cinzel Decorative', cursive;
     color:rgba(224, 206, 12, 0.787);
 }
 

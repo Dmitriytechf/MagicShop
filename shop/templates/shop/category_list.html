@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header text-white" style="background-color: #010e36ff;">
                     <h5 class="mb-0">Подкатегории</h5>
                 </div>
                 <div class="list-group list-group-flush">
@@ -27,14 +27,14 @@
                             </a>
                         {% endfor %}
                     {% else %}
-                        <div class="list-group-item text-muted">Нет подкатегорий</div>
+                        <div class="list-group-item text-muted">Кажется, гномы еще не внесли новые подкатегории в список...</div>
                     {% endif %}
                 </div>
             </div>
         </div>
 
         <div class="col-md-9">
-            <h2 class="mb-4">{{ category.name }}</h2>
+            <h2 class="mb-4">Подкатегории</h2>
             
             {% if subcategories %}
                 <div class="alert alert-info mb-4">

@@ -62,7 +62,7 @@ class Product(models.Model):
                                  related_name='products')
     title = models.CharField(max_length=255, verbose_name='Навзание')
     brand = models.CharField(max_length=255, verbose_name='Бренд')
-    description = models.TextField(max_length=255, null=True, verbose_name='Описание')
+    description = models.TextField(max_length=1055, null=True, verbose_name='Описание')
     slug = models.SlugField(max_length=255, verbose_name='URL')
     price = models.DecimalField(max_digits=7, decimal_places=2,
                                 default=99.99, verbose_name='Цена')

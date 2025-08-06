@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_email_verification',
+    'sorl.thumbnail',
     
     # apps
     'shop.apps.ShopConfig',
@@ -107,7 +108,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
-    BASE_DIR / 'mainpage' / 'static'
+    BASE_DIR / 'mainpage' / 'static',
+    BASE_DIR / 'payment' / 'static',
 ]
 
 MEDIA_URL = '/media/'  # URL для доступа к медиафайлам
