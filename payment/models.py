@@ -48,4 +48,4 @@ class OrderItem(models.Model):
                              blank=True, null=True)
     
     def __str__(self):
-        return f'OrderItem: {str(self.id)} | Price: {self.price}'
+        return f'Order Item: {str(self.id)} | Price: {self.price}'

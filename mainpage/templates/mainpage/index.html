@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MagicShop</title>
+    <link rel="stylesheet" href="{% static 'mainpage/css/style.css' %}"/>
+  </head>
+
+<body>
+    <img 
+      src="{% static 'mainpage/img/magicfon.jpg' %}" 
+      class="fullscreen-bg-img" 
+      alt="Фон магазина магии"
+    >
+    <canvas class="particles" data-color="#05d8fe"></canvas>
+    <div class="content-container">
+        <div id="welcome" class="welcome">Добро пожаловать в магазин магии!</div>
+        <div class="buttons-container">
+            <a href="http://127.0.0.1:8000/shop/" class="box">Товары</a>
+            <a href="#" class="box">Новости</a>
+            <a href="#" class="box">Дополнительно</a>
+        </div>
+    </div>
+
+</body>
+
+<script src="{% static 'mainpage/js/particles.js' %}"></script>
+
+</html>

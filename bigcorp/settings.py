@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+# Оплата stripe
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 # STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
@@ -35,6 +36,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'account.apps.AccountConfig',
     'payment.apps.PaymentConfig',
+    'mainpage.apps.MainpageConfig',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +54,7 @@ ROOT_URLCONF = 'bigcorp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'mainpage'/ 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,6 +106,9 @@ USE_TZ = True
 # Статика и медиа
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = [
+    BASE_DIR / 'mainpage' / 'static'
+]
 
 MEDIA_URL = '/media/'  # URL для доступа к медиафайлам
 MEDIA_ROOT = BASE_DIR / 'media'

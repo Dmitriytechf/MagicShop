@@ -73,7 +73,7 @@ def complete_order(request):
         # Создаем экземпляр корзины и берем общую сумму
         cart = Cart(request) 
         total_price = cart.get_total_price()
-        
+
         match payment_type:
             case "stripe-payment":
                 shipping_adress, _ = ShipingAdress.objects.get_or_create(
@@ -88,15 +88,14 @@ def complete_order(request):
                         'zip_code': zipcode,
                     }
                 )
-                
+
                 session_data = {
                     'mode': 'payment',
                     'success_url': request.build_absolute_uri(reverse("payment:payment-success")),
                     'cancel_url': request.build_absolute_uri(reverse("payment:payment-fail")),
                     'line_items': []
                 }
-                
-        
+
                 if request.user.is_authenticated:
                     order = Order.objects.create(user=request.user, 
                                                 shipping_adress=shipping_adress,
@@ -114,7 +113,7 @@ def complete_order(request):
                             },
                             'quantity': item['qty'],
                         })
-                        
+
                     session = stripe.checkout.Session.create(**session_data)
                     return redirect(session.url, code=303)
                 else:
