@@ -32,9 +32,14 @@ class Order(models.Model):
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    paid = models.BooleanField(default=False) # Подтверждение оплаты
 
     def __str__(self):
         return f'Order: {str(self.id)} | Total price: {self.amount}'
+    
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
 
 
 class OrderItem(models.Model):
