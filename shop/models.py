@@ -3,6 +3,7 @@ from django.utils.text import slugify
 import random
 import string
 from django.urls import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 # Сделаем отдельно константы
@@ -58,6 +59,9 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    '''
+    Модель продукта.
+    '''
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  related_name='products')
     title = models.CharField(max_length=255, verbose_name='Навзание')
@@ -70,27 +74,44 @@ class Product(models.Model):
     available = models.BooleanField(default=True, verbose_name='Наличие')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     update_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+    discount = models.IntegerField(
+        default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
+        ordering = ['-created_at']
 
     def __str__(self):
         return self.title
     
     def get_absolute_url(self):
+        '''Возвращает абсолютный URL для доступа к детальной странице товара.'''
         return reverse("shop:product-detail", args=[str(self.slug)])
+    
+    def get_discounted_price(self):
+        discounted_price = self.price - (self.price * self.discount / 100)
+        return round(discounted_price, 2)
 
 
 class ProductManager(models.Manager):
-    
+    '''
+    Кастомный менеджер для модели Product, который по умолчанию возвращает 
+    только доступные товары.
+    '''
+
     def get_queryset(self):
         return super(ProductManager, self).get_queryset().filter(available=True)
 
 
 class ProductProxy(Product):
-    objects = ProductManager()
+    '''
+    Прокси-модель для Product, которая использует кастомный менеджер ProductManager.
+    '''
+    objects = ProductManager() # Заменяем стандартный менеджер на кастомный
     
     class Meta:
-        proxy = True
+        proxy = True # Указывает, что это прокси-модель
+        verbose_name = 'Доступный продукт'
+        verbose_name_plural = 'Доступные продукты'
     

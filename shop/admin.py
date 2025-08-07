@@ -15,7 +15,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('title', 'brand', 'slug', 'price', 'available', 'created_at', 'update_at')
+    list_display = ('title', 'brand', 'slug', 'price', 'available', 
+                    'created_at', 'update_at', 'discount')
     list_filter = ('available', 'created_at', 'update_at')
     ordering = ('title',)
     

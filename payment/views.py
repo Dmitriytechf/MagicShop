@@ -5,6 +5,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.urls import reverse
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from xhtml2pdf import pisa
 
 from django.conf import settings
 from cart.cart import Cart
@@ -155,3 +158,16 @@ def payment_success(request):
 def payment_fail(request):
     '''Перенаправляем на страницу ошибки'''
     return render(request, 'payment/payment-fail.html')
+
+
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    # Рендерим HTML
+    html = render_to_string('payment/pdf/order_pdf.html', {'order': order})
+    # Создаём PDF-ответ
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    # Конвертируем в PDF
+    pisa.CreatePDF(html, dest=response)
+
+    return response

@@ -15,4 +15,6 @@ urlpatterns = [
     path('payment-fail/', payment_fail, name='payment-fail'),
     # Webhook для stripe
     path('webhook-stripe/', stripe_webhook, name='webhook-stripe'),
+    # Создание pdf для заказа
+    path('admin/order/<int:order_id>/pdf/', admin_order_pdf, name='admin_order_pdf'),
 ]
