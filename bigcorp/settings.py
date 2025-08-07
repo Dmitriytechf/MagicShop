@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_email_verification',
     'sorl.thumbnail',
+    'django_celery_beat',
+    'django_celery_results',
     
     # apps
     'shop.apps.ShopConfig',
@@ -124,6 +126,18 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 LOGIN_REDIRECT_URL = 'shop:products'  # Куда перенаправлять после входа
 LOGOUT_REDIRECT_URL = 'shop:products'  # Куда перенаправлять после выхода
 
+
+# Celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# Email для теста
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Здесь все что касается настроек авторизации по email(пока не нужно)
 # def email_verified_callback(user):

@@ -5,10 +5,14 @@ from django.http import HttpResponse
 import stripe
 
 from .models import Order
+from .task import send_order_confirmation
 
 
 @csrf_exempt
 def stripe_webhook(request):
+    '''
+    Webhook для обработки заказов через stripe
+    '''
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
@@ -18,10 +22,10 @@ def stripe_webhook(request):
             payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
         )
     except ValueError as e:
-        # Invalid payload
+        # Ошибка payload
         return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
+        # Ошибка signature
         return HttpResponse(status=400)
 
     # Обработка событий
@@ -32,9 +36,10 @@ def stripe_webhook(request):
             try:
                 order_id = session.client_reference_id
             except Order.DoesNotExist:
-                HttpResponse(status=400)
+                return HttpResponse(status=400)
 
             #Подтверждаем оплату
+            send_order_confirmation.delay(order_id)
             order = Order.objects.get(id=order_id)
             order.paid = True
             order.save()
