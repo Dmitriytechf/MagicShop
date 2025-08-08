@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">{{ product.category.title }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ product.title }}</li>
+                </ol>
+            </nav>
+
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="card mb-4 border-0 shadow-sm h-100">
+                        <div class="card-body p-3 d-flex align-items-center justify-content-center">
+                            <div class="product-image-container" style="max-width: 100%; height: 400px;">
+                                {% if product.image %}
+                                <img src="{{ product.image.url }}" class="img-fluid h-100 w-auto" alt="{{ product.title }}" style="object-fit: contain; max-width: 100%;">
+                                {% else %}
+                                <img src="{% static 'images/no-image.jpg' %}" class="img-fluid h-100 w-auto" alt="Нет изображения" style="object-fit: contain; max-width: 100%;">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card mb-4 border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h1 class="card-title mb-3">{{ product.title }}</h1>
+                            <p class="text-muted mb-4">Бренд: {{ product.brand }}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h2 class="price text-primary">{{ product.price }} $</h2>
+                                <span class="badge bg-{% if product.available %}success{% else %}danger{% endif %} p-2"
+                                    style="height: 70%;">
+                                    {% if product.available %}В наличии{% else %}Нет в наличии{% endif %}
+                                </span>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="d-flex align-items-stretch gap-2 mb-2">
+                                    <select id="select" class="form-select" style="
+                                        width: 12%;
+                                        border-radius: 8px;
+                                        padding: 0.5rem;
+                                        height: auto;
+                                    ">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+
+                                    <button id="add-button" value="{{ product.id }}"
+                                            class="btn btn-primary btn-lg py-3 position-relative overflow-hidden flex-grow-1" 
+                                            style="border-radius: 8px 8px 8px 8px; transition: all 0.3s;">
+                                        <span class="position-relative z-index-1">
+                                            <i class="bi bi-cart-plus me-2"></i> Добавить в корзину
+                                        </span>
+                                        <span class="position-absolute top-0 start-0 w-100 h-100 bg-white opacity-0 hover-opacity-10" 
+                                            style="transition: opacity 0.3s;"></span>
+                                    </button>
+                                </div>
+
+                                <a href="#" class="btn btn-outline-secondary w-100 py-3 position-relative" 
+                                        style="border-radius: 8px; transition: all 0.3s; border-width: 2px;">
+                                    <span class="position-relative z-index-1">
+                                        <i class="bi bi-heart me-2"></i> Добавить в избранное
+                                    </span>
+                                    <span class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-0 hover-opacity-10" 
+                                        style="transition: opacity 0.3s;"></span>
+                                </a>
+                            </div>
+
+                            <div class="product-meta mb-3">
+                                <div class="d-flex justify-content-between border-bottom py-3">
+                                    <span class="text-muted">Бренд:</span>
+                                    <span class="fw-medium">{{ product.brand }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between border-bottom py-3">
+                                    <span class="text-muted">Дата добавления:</span>
+                                    <span class="fw-medium">{{ product.created_at|date:"d.m.Y" }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between py-3">
+                                    <span class="text-muted">Последнее обновление:</span>
+                                    <span class="fw-medium">{{ product.update_at|date:"d.m.Y" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-2">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light py-3">
+                            <h3 class="mb-0">Описание</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            {% if product.description %}
+                                <p class="lead">{{ product.description }}</p>
+                            {% else %}
+                                <p class="text-muted lead">Описание для этого товара пока не добавлено...</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-4">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light py-3">
+                            <h3 class="mb-0">Похожие товары</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-4">
+                                {% for related in product.category.products.all|slice:":3" %}
+                                    {% if related.id != product.id %}
+                                    <div class="col-md-4">
+                                        <div class="card h-100 border-0 shadow-sm">
+                                            <div class="product-thumb-container" style="height: 200px; display: flex; align-items: center; justify-content: center; padding: 10px;">
+                                                {% if related.image %}
+                                                    <img src="{{ related.image.url }}" class="img-fluid" alt="{{ related.title }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                                {% endif %}
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">{{ related.title }}</h5>
+                                                <p class="card-text text-primary fw-bold">{{ related.price }} $</p>
+                                                <a href="{{ related.get_absolute_url }}" class="btn btn-outline-primary w-100">Подробнее</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% empty %}
+                                    <div class="col-12 text-center">
+                                        <p class="text-muted lead">Архивариус не нашел похожих товаров...</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    $(document).on('click', '#add-button', function(e){
+        e.preventDefault();
+        const $button = $(this);
+        const productId = $('#add-button').val();
+        const productQty = $('#select option:selected').val();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:add-to-cart" %}',
+            data: {
+                product_id: productId,
+                product_qty: productQty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response){
+                // Обновляем счетчик корзины
+                $('#lblCartCount').text(response.qty);
+
+                // Изменяем кнопку
+                $button.prop('disabled', true)
+                      .removeClass('btn-primary')
+                      .addClass('btn-vibrant-success')
+                      .html('<i class="bi bi-check-circle me-2"></i> В корзине');
+
+                // Можно добавить анимацию
+                $button.css('transform', 'scale(1.05)');
+                setTimeout(() => $button.css('transform', 'scale(1)'), 200);
+            },
+            error: function(error){
+                console.log(error);
+                alert('Произошла ошибка при добавлении в корзину');
+            }
+        })
+    })
+</script>
+
+<style>
+    .btn-vibrant-success {
+        background-color: #00ff00ff !important;
+        border-color:   #00ff00ff !important;
+        color: white !important;
+    }
+    .btn-vibrant-success:hover {
+        background-color: #0bf00bc6 !important;
+        border-color: #00ff00d6 !important;
+    }
+    .product-image-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+        border-radius: 0.25rem;
+    }
+    
+    .product-thumb-container {
+        background-color: #f8f9fa;
+        border-radius: 0.25rem 0.25rem 0 0;
+    }
+</style>
+{% endblock %}

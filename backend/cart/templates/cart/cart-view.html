@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block content %}
+<main class="container my-5">
+    {% if cart %}
+    <div class="row">
+        <div class="col-lg-8 pe-lg-4">
+            <div class="text-center mb-5">
+                <h1 class="display-4 mb-3 fw-bold text-primary position-relative">
+                    <span class="position-relative z-index-1">
+                        Ваша корзина покупок
+                    </span>
+                </h1>
+                <p class="lead text-muted mb-4">Проверьте выбранные товары перед оформлением</p>
+            </div>
+
+            <!-- Список товаров -->
+            <div class="cart-items mb-4">
+                {% for item in cart %}
+                    {% with product=item.product %}
+                    <div class="card mb-3 border-1 shadow-sm" style="border-radius: 12px;">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-md-3 p-3">
+                                <div class="ratio ratio-1x1 bg-light" style="border-radius: 8px;">
+                                    <img src="{{ product.image.url }}" class="img-fluid p-2" alt="{{ product.title }}" style="object-fit: contain;">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 p-3">
+                                <div class="card-body p-0">
+                                    <div class="d-flex flex-column h-100">
+                                        <div class="mb-2">
+                                            <h5 class="card-title mb-1 fw-semibold">{{ product.title }}</h5>
+                                            <p class="card-text text-muted small mb-2">{{ product.brand }}</p>
+                                        </div>
+                                        <p class="card-text small text-muted mb-3 flex-grow-1">{{ product.description|truncatechars:120 }}</p>
+                                        <div>
+                                            <a href="{{ product.get_absolute_url }}" class="btn btn-sm btn-outline-primary px-3">
+                                                <i class="bi bi-info-circle me-1"></i> Подробнее
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="col-md-4 p-3">
+                                <div class="card-body p-0 h-100 d-flex flex-column justify-content-between align-items-end">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="input-group" style="max-width: 140px;">
+                                            <button class="btn btn-outline-secondary px-3 quantity-btn" type="button">
+                                                <i class="bi bi-dash"></i>
+                                            </button>
+                                            <input type="text" class="form-control text-center border-secondary px-0" value="{{ item.qty }}" style="font-weight: 500;">
+                                            <button class="btn btn-outline-secondary px-3 quantity-btn" type="button">
+                                                <i class="bi bi-plus"></i>
+                                            </button>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger ms-3 rounded-circle delete-button" 
+                                                style="width: 32px; height: 32px;"
+                                                data-index="{{ product.id }}">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="text-end w-100">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="text-muted small">Цена:</span>
+                                            <span class="fw-medium">{{ item.price }} $</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-1">
+                                            <span class="text-muted small">Сумма:</span>
+                                            <span class="fw-bold text-dark">{{ item.price|mul:item.qty }} $</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+
+            <div class="text-start mb-5">
+                <a href="{% url 'shop:products' %}" class="btn btn-outline-primary px-4">
+                    <i class="bi bi-arrow-left me-2"></i> Продолжить покупки
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 20px;">
+                <div class="card border-0 shadow-sm p-4 mb-4" style="border-radius: 12px;">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold mb-4 pb-2 border-bottom">
+                            <i class="bi bi-receipt me-2"></i> Итоговый заказ
+                        </h5>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Товары ({{ cart|length }}):</span>
+                                <span class="fw-medium">{{ cart.get_total_price }} $</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Доставка:</span>
+                                <span class="fw-medium">Бесплатно</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-3 pt-2 border-top">
+                                <span class="text-muted">Итого:</span>
+                                <span id='total' class="fw-bold fs-5 text-primary">
+                                    {{ cart.get_total_price }} $</span>
+                            </div>
+                        </div>
+
+                        <a href="{% url 'payment:checkout' %}" class="btn btn-primary btn-lg w-100 py-3 fw-semibold mb-3">
+                            <i class="bi bi-credit-card me-2"></i> Оформить заказ
+                        </a>
+                        
+                        <div class="text-center small text-muted mt-3">
+                            <i class="bi bi-lock me-1"></i> Ваши данные защищены
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="text-center py-5">
+                <div class="card border-0 shadow-sm py-5 bg-light" style="border-radius: 12px;">
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <i class="bi bi-cart-x display-1 text-primary opacity-25"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Ой-ой, Ваша магическая корзина пуста</h3>
+                        <p class="text-muted mb-4">Посмотрите что-нибудь для себя у наших высокоранговых магов</p>
+                        <a href="{% url 'shop:products' %}" class="btn btn-primary btn-lg px-4 rounded-pill">
+                            <i class="bi bi-bag me-2"></i> Перейти к товарам
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</main>
+
+<script>
+    $(document).on('click', '.delete-button', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:delete-to-cart" %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response){
+                document.getElementById('lblCartCount').textContent = response.qty;
+                document.getElementById('total').textContent = response.total;
+                location.reload(); // Полная перезагрузка для обновления всех данных
+            },
+            error: function(error, status){
+                console.log(error)
+            }
+        })
+    })
+
+    $(document).on('click', '.quantity-btn', function(e){
+        e.preventDefault();
+        const input = $(this).closest('.input-group').find('input');
+        let quantity = parseInt(input.val());
+        const productItem = $(this).closest('.card');
+        
+        if ($(this).find('.bi-plus').length) {
+            quantity += 1;
+        } else if ($(this).find('.bi-dash').length) {
+            quantity = quantity > 1 ? quantity - 1 : 1;
+        }
+        
+        input.val(quantity);
+        
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:update-to-cart" %}',
+            data: {
+                product_id: $(this).closest('.d-flex').find('.delete-button').data('index'),
+                product_qty: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response){
+                // Обновляем общие данные
+                document.getElementById('lblCartCount').textContent = response.qty;
+                document.getElementById('total').textContent = response.total + ' $';
+                
+                // Обновляем сумму для конкретного товара
+                const price = parseFloat(productItem.find('.fw-medium').first().text());
+                const totalPrice = price * quantity;
+                productItem.find('.fw-bold.text-dark').text(totalPrice.toFixed(2) + ' $');
+            },
+            error: function(error, status){
+                console.log(error)
+            }
+        })
+    })
+</script>
+
+{% endblock %}

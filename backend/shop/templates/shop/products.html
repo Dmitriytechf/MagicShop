@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+<main class="container my-4">
+    <div class="row">
+        <!-- Колонка категорий -->
+        <div class="col-md-3" style="top: 20px; height: fit-content;">
+            <div class="card mb-4 category-card">
+                <div class="card-header text-white"
+                    style="background-color: #010e36ff;">
+                    <h5 class="mb-0">Категории</h5>
+                </div>
+                <div class="list-group list-group-flush" 
+                    style="max-height: 200vh; overflow-y: auto; font-size: 1.15rem;">
+                    {% for category in categories %}
+                        {% if not category.parent %}
+                        <div class="list-group-item p-0" >
+                            {% if category.children.all %}
+                                <a href="#" class="d-block p-2 text-decoration-none" data-bs-toggle="collapse" 
+                                data-bs-target="#subcategories-{{ category.id }}" style="color: #011041ca;">
+                                    {{ category.name }} <i class="bi bi-chevron-down float-end"></i>
+                                </a>
+                                <div class="collapse" id="subcategories-{{ category.id }}" style="color: #011041ca;">
+                                    <div class="list-group list-group-flush" style="color: #011041ca;">
+                                        {% for child in category.children.all %}
+                                            <a href="{{ child.get_absolute_url }}" class="list-group-item list-group-item-action ps-4">
+                                                {{ child.name }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <a href="{{ category.get_absolute_url }}" class="d-block p-2 text-decoration-none" style="color: #011041ca;">
+                                    {{ category.name }}
+                                </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Основная колонка -->
+        <div class="col-md-9" id="products-container">
+            <div class="banner text-center mb-3">  
+                <h2 class="mb-3">Добро пожаловать в мир магии и волшебства!</h2>
+                <p class="lead mb-5">Сделайте магию Вашим рутинным делом!</p>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12">
+                    <form hx-get="{% url 'shop:products' %}"
+                        hx-target="#products-list-container"
+                        hx-trigger="keyup changed delay:500ms, search"
+                        hx-swap="innerHTML"
+                        class="d-flex">
+                        <input 
+                            type="search" 
+                            class="form-control me-2" 
+                            placeholder="Поиск..." 
+                            name="q"
+                            aria-label="Search"
+                            value="{{ search_query|default:'' }}"
+                        >
+                        <button class="btn btn-outline-primary" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="products-list-container">
+                {% include 'shop/_partials/products_list.html' %}
+            </div>
+    </div>
+</main>
+
+<script>
+    $(document).on('click', '.add-to-cart-btn', function(e){
+        e.preventDefault();
+        const productId = $(this).data('product-id');
+        const productQty = 1;
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart:add-to-cart" %}',
+            data: {
+                product_id: productId,
+                product_qty: productQty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(response){
+                document.getElementById('lblCartCount').textContent=response.qty;
+                // alert('Товар добавлен в корзину!');
+            },
+            error: function(error){
+                console.log(error);
+            }
+        })
+    })
+</script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+name: Main Magic workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/README.md"
+
+jobs:
+  print-message:
+    runs-on: windows-latest
+
+    steps:
+      - name: Print a message
+        run: echo "Hello, World!"
+  send_message:
+    runs-on: windows-latest
+    needs: print-message
+    steps:
+      - name: Send message
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: Деплой успешно выполнен!

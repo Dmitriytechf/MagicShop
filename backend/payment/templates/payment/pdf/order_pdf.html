@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Order {{ order.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .order-header {
+            font-size: 3rem;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .order-details {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .detail-item {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .detail-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 150px;
+            color: #2c3e50;
+        }
+        .detail-value {
+            display: inline-block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .total-amount {
+            color: green;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="order-header">
+        <h1>Order id: #{{ order.id }}</h1>
+    </div>
+
+    <div class="order-details">
+        <div class="detail-item">
+            <span class="detail-label">User: </span>
+            <span class="detail-value">{{ order.user.get_full_name|default:order.user.username }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Order Date: </span>
+            <span class="detail-value">{{ order.created|date:"m.d.Y  H:i" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Last Updated: </span>
+            <span class="detail-value">{{ order.updated|date:"m.d.Y  H:i" }}</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Discount: </span>
+            <span class="detail-value">{{ order.discount }} %</span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Shipping Address: </span>
+            <span class="detail-value">
+                {% if order.shipping_adress %}
+                    {{ order.shipping_adress.city }}, 
+                    {{ order.shipping_adress.country }}
+                {% else %}
+                    Not specified
+                {% endif %}
+            </span>
+        </div>
+        <div class="detail-item">
+            <span class="detail-label">Payment Status: </span>
+            <span class="detail-value">
+                {% if order.paid %}
+                    <span style="color: green; font-weight: bold;">Paid</span>
+                {% else %}
+                    <span style="color: red; font-weight: bold;">Pending</span>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+    <div class="total-amount">
+        Total Amount: ${{ order.get_total_cost }}
+    </div>
+</body>
+</html>
