@@ -4,12 +4,12 @@
 
 ## Описание
 
-### 🚀 Возможности и развитие
--✅ Интернет магазин со всеми основными возможностями
--✅ Активная разработка фронтенд-части (HTMX, JavaScript, AJAX)
--✅ Подключенное REST API с Swagger/OpenAPI документацией
--✅ Гибкая система оплаты (Stripe, Webhook)
--✅ Интеграция с Docker, Nginx и CI/CD (GitHub Actions)
+### 🚀 Возможности и развитие  
+✅ Интернет магазин со всеми основными возможностями  
+✅ Активная разработка фронтенд-части (HTMX, JavaScript, AJAX)  
+✅ Подключенное REST API с Swagger/OpenAPI документацией  
+✅ Гибкая система оплаты (Stripe, Webhook)  
+✅ Интеграция с Docker, Nginx и CI/CD (GitHub Actions) 
 
 ### 📊 Основной функционал для пользователя
 - Добавление и удаление товара в корзине
@@ -30,20 +30,6 @@
 -  Асинхронные задачи через Celery
 
 ## 🛠️ Стек технологий
-### Основные технологии
-- Django
-- Django REST
-- HTML и CSS
-- HTMX
-- Celery
-- Redis
-- Webhook
-- Bootstrap
-- Ajax
-- Github Action
-- Docker
-- Nginx
-
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
 ![Django](https://img.shields.io/badge/Django-4.2-092E20?logo=django&logoColor=white)
 ![Django REST](https://img.shields.io/badge/Django_REST-3.14-ff1709?logo=django&logoColor=white)
@@ -60,6 +46,19 @@
 ![Nginx](https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)
 
+### Основные технологии
+- Django
+- Django REST
+- HTML и CSS
+- HTMX
+- Celery
+- Redis
+- Webhook
+- Bootstrap
+- Ajax
+- Github Action
+- Docker
+- Nginx
 
 ## 🚀 Установка
 1. Клонируйте репозиторий:
