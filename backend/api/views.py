@@ -5,8 +5,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from account.models import Profile
 from shop.models import Product
-from .serializers import ProductSerializer, ProductDetailSerializer
+from .serializers import ProductSerializer, ProductDetailSerializer, ProfileSerializer
 from .permissions import IsAdminOrReadOnly
 from .pagination import StandardResultsSetPagination
 
@@ -22,4 +23,11 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
     permission_classes = [permissions.IsAuthenticated] # Только зарегистрированным
+    throttle_classes = []  # Отключает троттлинг
     lookup_field = "pk"
+
+
+class ProfileAPIView(generics.ListAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAdminOrReadOnly]

@@ -1,0 +1,35 @@
+<div class="col-12 mt-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light py-3">
+            <h3 class="mb-0">Похожие товары</h3>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                {% for related in product.category.products.all|slice:":3" %}
+                    {% if related.id != product.id %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card h-100 border-0 shadow-sm d-flex flex-column">
+                            <div class="product-thumb-container flex-grow-1" style="height: 200px; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden;">
+                                {% if related.image %}
+                                    <a href="{{ related.get_absolute_url }}">
+                                        <img src="{{ related.image.url }}" class="img-fluid" alt="{{ related.title }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="card-body text-center d-flex flex-column">
+                                <h5 class="card-title">{{ related.title }}</h5>
+                                <p class="card-text text-primary fw-bold mt-auto">{{ related.price }} $</p>
+                                <a href="{{ related.get_absolute_url }}" class="btn btn-outline-primary w-100 mt-2">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% empty %}
+                    <div class="col-12 text-center">
+                        <p class="text-muted lead">Архивариус не нашел похожих товаров...</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

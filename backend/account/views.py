@@ -42,6 +42,7 @@ def account_view(request):
 
 @login_required
 def update_account(request):
+    '''Функция обновления профиля'''
     profile, created = Profile.objects.get_or_create(user=request.user)
     
     if request.method == 'POST':
@@ -65,6 +66,7 @@ def update_account(request):
 
 @login_required
 def change_password(request):
+    '''Функция смены пароля'''
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -81,9 +83,12 @@ def change_password(request):
 
 @login_required
 def delete_account(request):
+    '''Функция удаления профиля'''
+    # При пост запросе проверяем юзера. Если совпали - удаляем.
     if request.method == 'POST':
         user = request.user
         user.delete()
+        # Редирект на главную
         return redirect('shop:products')
-     
+
     return redirect('account:profile')

@@ -23,6 +23,7 @@ urlpatterns = [
     # Product
     path('products/', views.ProductListApiView.as_view()),
     path('products/<int:pk>/', views.ProductDetailAPIView.as_view()),
+    path('profile/', views.ProfileAPIView.as_view()),
     
     # Djoser (регистрация, смена пароля и т. д.)
     path('auth/', include('djoser.urls')),

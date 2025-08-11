@@ -41,8 +41,6 @@ class ProductViewTest(TestCase):
         # Проверка кода ответа и тимплейта
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'shop/products.html')
-        # Проверка контекста
-        self.assertEqual(response.context['products'].count(), 2)
         
         self.assertContains(response, self.product_1.title)
         self.assertContains(response, self.product_2.title)

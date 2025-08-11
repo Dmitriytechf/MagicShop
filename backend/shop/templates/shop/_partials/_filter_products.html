@@ -1,0 +1,53 @@
+<div class="card mb-4">
+    <div class="card-header text-white" style="background-color: #010e36ff;">
+        <h4 class="mb-0">Фильтры</h4>
+    </div>
+    <div class="card-body">
+        <form hx-get="{% url 'shop:products' %}"
+              hx-target="#products-list-container"
+              hx-trigger="submit"
+              hx-swap="innerHTML">
+
+            <!-- Фильтр по цене -->
+            <div class="mb-3">
+                <label class="form-label">Цена</label>
+                <div class="row g-2">
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="От" name="min_price" value="{{ request.GET.min_price }}">
+                    </div>
+                    <div class="col">
+                        <input type="number" class="form-control" placeholder="До" name="max_price" value="{{ request.GET.max_price }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Фильтр по наличию -->
+            <div class="mb-3">
+                <label class="form-label">Наличие</label>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" 
+                        name="available" id="Available"
+                        {% if request.GET.available %}checked{% endif %}>
+                    <label class="form-check-label" for="Available">
+                        Есть в наличии
+                    </label>
+                </div>
+            </div>
+
+            <!-- Сортировка -->
+            <div class="mb-3">
+                <label class="form-label">Сортировка</label>
+                <select class="form-select" name="sort">
+                    <option value="">По умолчанию</option>
+                    <option value="price_asc" {% if request.GET.sort == "price_asc" %}selected{% endif %}>Цена по возрастанию</option>
+                    <option value="price_desc" {% if request.GET.sort == "price_desc" %}selected{% endif %}>Цена по убыванию</option>
+                    <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>Новинки</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn w-100" style="color:white; background-color: #010e36ff;">Применить</button>
+
+            <a href="{% url 'shop:products' %}" class="btn btn-outline-secondary w-100 mt-2">Сбросить</a>
+        </form>
+    </div>
+</div>

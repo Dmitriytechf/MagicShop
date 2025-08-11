@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center align-items-center mt-3" style="min-height: 60vh;">
+    <div class="card" style="width: 50rem;">
+        <div class="card-body">
+            <h3 class="card-title text-center fs-2 mb-5 mt-1" 
+                style="color: #052470ff;">
+                Контактная информация
+            </h3>
+            
+            <!-- Адрес и телефон -->
+            <div class="row mb-3 justify-content-center">
+                <div class="col-md-5 me-md-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="bi bi-geo-alt-fill fs-4 me-3" style="color: #052470ff;"></i>
+                        <div>
+                            <h5 class="mb-1" style="color: #2b395eff;">Адрес</h5>
+                            <p class="mb-0" style="color: #35373cff;">Косой переулок, 9¾, Лондон</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <i class="bi bi-telephone-fill fs-4 me-3" style="color: #052470ff;"></i>
+                        <div>
+                            <h5 class="mb-1" style="color: #2b395eff;">Телефон</h5>
+                            <p class="mb-0" style="color: #35373cff;">+000 000 00 00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Центральный контакт -->
+            <div class="d-flex justify-content-center">
+                <div class="d-flex align-items-center" style="max-width: 300px;">
+                    <i class="bi bi-envelope-fill fs-4 me-3" style="color: #052470ff;"></i>
+                    <div>
+                        <h5 class="mb-1 text-center" style="color: #2b395eff;">Email</h5>
+                        <p class="mb-0 text-center" style="color: #35373cff;">wowmagic@magicshop.com</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Соцсети -->
+            <div class="text-center mt-5">
+                <h5 class="mb-3" style="color: #2b395eff;">Мы в социальных сетях</h5>
+                <div>
+                    <a href="#" class="text-decoration-none me-4 social-link" 
+                       data-network="Facebook">
+                        <i class="bi bi-facebook fs-3" style="color: #052470ff;"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none social-link" 
+                       data-network="Telegram">
+                        <i class="bi bi-telegram fs-3" style="color: #052470ff;"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <p class="card-text text-end fs-5" style="color: #2b395eff;">
+                Вступай в Орден!
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){
+        const socialLink = document.querySelectorAll('.social-link');
+
+        socialLink.forEach( link=> {
+            link.addEventListener('click', function(e){
+                // Отменяем стандартное поведение ссылки
+                e.preventDefault();
+
+                // Получаем название соцсети из data-атрибута
+                const net = this.getAttribute('data-network');
+                alert(`${net} пока не добавлен. Мы работаем над этим!`);
+            });
+        });
+    });
+</script>
+
+{% endblock %}

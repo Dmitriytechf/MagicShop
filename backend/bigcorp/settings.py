@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'payment.apps.PaymentConfig',
     'mainpage.apps.MainpageConfig',
+    'otherapp.apps.OtherappConfig',
     'api.apps.ApiConfig',
 ]
 
@@ -153,6 +154,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '100000/day',
+        'anon': '10000/day',
+    },
     "DEFAULT_PERMISSION_CLASSES": [
         "api.permissions.IsAdminOrReadOnly",
     ],
@@ -215,3 +224,34 @@ DJOSER = {
 # EMAIL_HOST_USER = 'mymail@gmail.com'
 # EMAIL_HOST_PASSWORD = 'mYC00lP4ssw0rd'  # os.environ['password_key'] suggested
 # EMAIL_USE_TLS = True
+
+
+# Настройка логирования
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        # 'file': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.FileHandler',
+        #     'filename': '/var/log/celery/tasks.log',
+        # },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{asctime}[{levelname}]: {message} | ({module})',
+            'style': '{',
+        },
+    },
+    'loggers': {
+        'bigcorp': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

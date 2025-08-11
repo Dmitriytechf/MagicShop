@@ -5,51 +5,22 @@
 {% block content %}
 <main class="container my-4">
     <div class="row">
-        <!-- Колонка категорий -->
+        <!-- Колонка категорий и фильтров -->
         <div class="col-md-3" style="top: 20px; height: fit-content;">
-            <div class="card mb-4 category-card">
-                <div class="card-header text-white"
-                    style="background-color: #010e36ff;">
-                    <h5 class="mb-0">Категории</h5>
-                </div>
-                <div class="list-group list-group-flush" 
-                    style="max-height: 200vh; overflow-y: auto; font-size: 1.15rem;">
-                    {% for category in categories %}
-                        {% if not category.parent %}
-                        <div class="list-group-item p-0" >
-                            {% if category.children.all %}
-                                <a href="#" class="d-block p-2 text-decoration-none" data-bs-toggle="collapse" 
-                                data-bs-target="#subcategories-{{ category.id }}" style="color: #011041ca;">
-                                    {{ category.name }} <i class="bi bi-chevron-down float-end"></i>
-                                </a>
-                                <div class="collapse" id="subcategories-{{ category.id }}" style="color: #011041ca;">
-                                    <div class="list-group list-group-flush" style="color: #011041ca;">
-                                        {% for child in category.children.all %}
-                                            <a href="{{ child.get_absolute_url }}" class="list-group-item list-group-item-action ps-4">
-                                                {{ child.name }}
-                                            </a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% else %}
-                                <a href="{{ category.get_absolute_url }}" class="d-block p-2 text-decoration-none" style="color: #011041ca;">
-                                    {{ category.name }}
-                                </a>
-                            {% endif %}
-                        </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+            <!-- Категории -->
+            {% include 'shop/_partials/_category_products.html' %}
+            <!-- Фильтры -->
+            {% include 'shop/_partials/_filter_products.html' %}
         </div>
 
         <!-- Основная колонка -->
         <div class="col-md-9" id="products-container">
-            <div class="banner text-center mb-3">  
+            <!-- Вступительный контейнер -->
+            <div class="banner text-center mb-3">
                 <h2 class="mb-3">Добро пожаловать в мир магии и волшебства!</h2>
                 <p class="lead mb-5">Сделайте магию Вашим рутинным делом!</p>
             </div>
-
+            <!-- Поиск -->
             <div class="row mb-2">
                 <div class="col-12">
                     <form hx-get="{% url 'shop:products' %}"
@@ -65,16 +36,17 @@
                             aria-label="Search"
                             value="{{ search_query|default:'' }}"
                         >
-                        <button class="btn btn-outline-primary" type="submit">
+                        <button class="btn btn-outline" style="color: #0333c2ff; background-color: #f8feffa0; border-color: #0132c3ff;" type="submit">
                             <i class="bi bi-search"></i>
                         </button>
                     </form>
                 </div>
             </div>
-
+            <!-- Продукты с пагинацией -->
             <div id="products-list-container">
                 {% include 'shop/_partials/products_list.html' %}
             </div>
+        </div>
     </div>
 </main>
 

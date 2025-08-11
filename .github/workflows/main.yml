@@ -10,17 +10,44 @@ on:
 jobs:
   print-message:
     runs-on: ubuntu-latest
-
     steps:
       - name: Print a message
         run: echo "Hello, World!"
-  send_message:
+
+  send-message:
     runs-on: ubuntu-latest
     needs: print-message
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get commit info
+        id: commit
+        run: |
+          echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+          echo "AUTHOR=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
+          echo "DATE=$(git log -1 --pretty=%cd --date=format:'%Y-%m-%d %H:%M')" >> $GITHUB_OUTPUT
+      
+      - name: Get branch name
+        id: branch
+        run: echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+
       - name: Send message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Деплой успешно выполнен!
+          message: |
+            🚀 *Deployment Successful* 🚀
+
+            *Repository:* ${{ github.repository }}
+            *Branch:* ${{ steps.branch.outputs.BRANCH }}
+
+            *Commit:*
+            🔹 *Author:* ${{ steps.commit.outputs.AUTHOR }}
+            🔹 *Date:* ${{ steps.commit.outputs.DATE }}
+            🔹 *Message:* 
+                  ${{ steps.commit.outputs.MESSAGE }}
+
+            *Workflow run:* [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          parse_mode: markdown

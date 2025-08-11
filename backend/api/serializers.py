@@ -3,6 +3,7 @@ from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer
 
 from shop.models import Category, Product
+from account.models import Profile
 
 
 User = get_user_model()
@@ -34,6 +35,15 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Product
         fields = ["id", "title", "slug", "brand", "category", "price",
                   "image", "available", "discount", "created_at", "update_at", "discount"]
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    # Достаем имя с помощью __str__ метода из модели Profile
+    user = serializers.StringRelatedField()
+
+    class Meta:
+        model = Profile
+        fields = ["user", "avatar"]
 
 
 class UserCreateSerializer(UserCreateSerializer):

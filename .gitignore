@@ -21,5 +21,6 @@ __pycache__/
 # Базы данных
 db.sqlite3
 
-# Идеи и улучшения
-idea.txt
+# Заметки
+*.txt
+help_info

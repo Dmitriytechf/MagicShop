@@ -1,18 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Order {{ order.id }}</title>
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            margin: 0;
             padding: 20px;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content {
+            flex: 1;
         }
         .order-header {
-            font-size: 3rem;
+            font-size: 2.3rem;
         }
         h1 {
             color: #2c3e50;
@@ -57,61 +68,89 @@
             background-color: #f2f2f2;
         }
         .total-amount {
-            color: green;
             font-size: 2.5rem;
             font-weight: bold;
             margin-top: 20px;
             text-align: right;
         }
+
+        .footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="order-header">
-        <h1>Order id: #{{ order.id }}</h1>
-    </div>
+    <div class="content">
+        <div class="header">
+            <img src="{% static 'payment/img/test_ava.png' %}" 
+                alt="Company Logo" style="height: 80px; margin-bottom: 20px;">
+            <div style="text-align: right; margin-bottom: 30px; font-size: 20px;">
+                <p>MagicShop</p>
+            </div>
+        </div>
+        <div class="order-header">
+            <h1>Order id: #{{ order.id }}</h1>
+        </div>
 
-    <div class="order-details">
-        <div class="detail-item">
-            <span class="detail-label">User: </span>
-            <span class="detail-value">{{ order.user.get_full_name|default:order.user.username }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Order Date: </span>
-            <span class="detail-value">{{ order.created|date:"m.d.Y  H:i" }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Last Updated: </span>
-            <span class="detail-value">{{ order.updated|date:"m.d.Y  H:i" }}</span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Discount: </span>
-            <span class="detail-value">{{ order.discount }} %</span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Shipping Address: </span>
-            <span class="detail-value">
-                {% if order.shipping_adress %}
-                    {{ order.shipping_adress.city }}, 
-                    {{ order.shipping_adress.country }}
-                {% else %}
-                    Not specified
-                {% endif %}
-            </span>
-        </div>
-        <div class="detail-item">
-            <span class="detail-label">Payment Status: </span>
-            <span class="detail-value">
-                {% if order.paid %}
-                    <span style="color: green; font-weight: bold;">Paid</span>
-                {% else %}
-                    <span style="color: red; font-weight: bold;">Pending</span>
-                {% endif %}
-            </span>
-        </div>
-    </div>
+        <div class="order-details">
+            <div class="detail-item">
+                <span class="detail-label">User: </span>
+                <span class="detail-value">{{ order.shipping_adress.full_name|default:'' }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Email: </span>
+                <span class="detail-value">{{ order.shipping_adress.email }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Order Date: </span>
+                <span class="detail-value">{{ order.created|date:"m.d.Y  H:i" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Last Updated: </span>
+                <span class="detail-value">{{ order.updated|date:"m.d.Y  H:i" }}</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Shipping Address: </span>
+                <span class="detail-value">
+                    {% if order.shipping_adress %}
+                        City: {{ order.shipping_adress.city }};
+                        Country: {{ order.shipping_adress.country }};
+                        Street_adress: {{ order.shipping_adress.street_adress }};
+                    {% else %}
+                        Not specified
+                    {% endif %}
+                </span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Discount: </span>
+                <span class="detail-value">{{ order.discount }} %</span>
+            </div>
+            <div style="margin: 10px 0; padding: 10px; 
+                        background-color: {% if order.paid %}#e8f5e9{% else %}#ffebee{% endif %}; 
+                        border-radius: 5px;">
+                    <h2 class="detail-item" style="margin: 0; color: {% if order.paid %}#2e7d32{% else %}#c62828{% endif %};">
+                        Order Status: {% if order.paid %}PAID{% else %}PENDING PAYMENT{% endif %}
+                    </h2>
+                </div>
+            </div>
 
-    <div class="total-amount">
-        Total Amount: ${{ order.get_total_cost }}
+            <div class="total-amount">
+                Total Amount:
+                {% if order.paid %} 
+                    <span style="color: green; font-weight: bold;">{{ order.get_total_cost }} $</span>
+                {% else %}
+                    <span style="color: red; font-weight: bold;">{{ order.get_total_cost }} $</span>
+                {% endif %}
+            </div>
+        </div>
+
+    <div class="footer">
+        <p>Thank you for your order! If you have any questions, please contact our customer service.</p>
     </div>
 </body>
 </html>

@@ -27,9 +27,12 @@
                             <a href="{% url 'account:update_profile' %}" class="btn btn-sm btn-outline-secondary">
                                 Редактировать
                             </a>
-                            <a href="{% url 'account:logout' %}" class="btn btn-sm btn-outline-secondary">
-                                Выйти
-                            </a>
+                            <form action="{% url 'account:logout' %}" method="post" class="d-grid">
+                                {% csrf_token %}
+                                <button type="button" onclick="confirmLogout()" class="btn btn-sm btn-outline-secondary">
+                                    Выйти
+                                </button>
+                            </form>
                             <button onclick="confirmDelete()" class="btn btn-sm btn-outline-danger">
                                 Удалить
                             </button>
@@ -85,6 +88,12 @@ function confirmDelete(){
         document.body.appendChild(form);
         form.submit();
     }
+}
+function confirmLogout(){
+    if (confirm('Вы действительно хотите выйти из ордена?')){
+        // Находим форму выхода и отправляем её
+        document.querySelector('form[action="{% url 'account:logout' %}"]').submit();
+    };
 }
 </script>
 {% endblock %}
