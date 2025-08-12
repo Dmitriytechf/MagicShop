@@ -22,12 +22,13 @@ class ProductListApiView(generics.ListAPIView):
 class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
-    permission_classes = [permissions.IsAuthenticated] # Только зарегистрированным
+    permission_classes = [IsAdminOrReadOnly]
     throttle_classes = []  # Отключает троттлинг
     lookup_field = "pk"
 
 
 class ProfileAPIView(generics.ListAPIView):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.all().order_by('id')
     serializer_class = ProfileSerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = StandardResultsSetPagination

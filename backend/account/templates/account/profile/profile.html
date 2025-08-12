@@ -27,9 +27,12 @@
                             <a href="{% url 'account:update_profile' %}" class="btn btn-sm btn-outline-secondary">
                                 Редактировать
                             </a>
+                            <a href="{% url 'account:change_password' %}" class="btn btn-sm btn-outline-secondary">
+                                Сменить пароль
+                            </a>
                             <form action="{% url 'account:logout' %}" method="post" class="d-grid">
                                 {% csrf_token %}
-                                <button type="button" onclick="confirmLogout()" class="btn btn-sm btn-outline-secondary">
+                                <button type="button" onclick="confirmLogout()" class="btn btn-sm btn-outline-danger">
                                     Выйти
                                 </button>
                             </form>

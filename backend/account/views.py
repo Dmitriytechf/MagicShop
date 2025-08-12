@@ -78,7 +78,7 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     
-    return render(request, 'account/profile/edit_profile.html', {'form': form})
+    return render(request, 'account/profile/charge_password.html', {'form': form})
 
 
 @login_required

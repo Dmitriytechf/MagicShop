@@ -8,6 +8,7 @@ urlpatterns = [
     # path('', include('mainpage.urls')), # главная страница примерно как в играх
     path('cart/', include('cart.urls', namespace='cart')),
     path('', include('shop.urls', namespace='shop')),
+    path('captcha/', include('captcha.urls')),
     path('account/', include('account.urls', namespace='account')),
     path('payment/', include('payment.urls', namespace='payment')),
     path('other/', include('otherapp.urls', namespace='otherapp')),

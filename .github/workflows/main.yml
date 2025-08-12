@@ -40,13 +40,13 @@ jobs:
           message: |
             🚀 Deployment Successful 🚀
 
-            Repository: ${{ github.repository }}
-            Branch: ${{ steps.branch.outputs.BRANCH }}
+            -> Repository: ${{ github.repository }}
+            -> Branch: ${{ steps.branch.outputs.BRANCH }}
 
             Commit:
             🔹 Author: ${{ steps.commit.outputs.AUTHOR }}
             🔹 Date: ${{ steps.commit.outputs.DATE }}
             🔹 Message: ${{ steps.commit.outputs.MESSAGE }}
 
-            Workflow run: [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            Workflow run -> [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
           parse_mode: markdown

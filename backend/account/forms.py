@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
                                        UserCreationForm)
 from django.forms.widgets import PasswordInput, TextInput
+from captcha.fields import CaptchaField
 
 from .models import Profile
 
@@ -10,6 +11,11 @@ User = get_user_model()
 
 
 class UserCreateForm(UserCreationForm):
+    captcha = CaptchaField(
+        label="Подтвердите, что Вы настоящий маг",
+        help_text="Решите магический пример"
+        )
+    
     def __init__(self, *args, **kwargs):
         super(UserCreateForm, self).__init__(*args, **kwargs)
         
@@ -34,7 +40,7 @@ class UserCreateForm(UserCreationForm):
    
     class Meta:
        model = User
-       fields = ('username', 'email', 'password1', 'password2')
+       fields = ('username', 'email', 'password1', 'password2', 'captcha')
 
 
 class UserUpdateForm(UserChangeForm):

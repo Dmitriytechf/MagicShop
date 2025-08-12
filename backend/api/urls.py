@@ -21,10 +21,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # Product
-    path('products/', views.ProductListApiView.as_view()),
-    path('products/<int:pk>/', views.ProductDetailAPIView.as_view()),
-    path('profile/', views.ProfileAPIView.as_view()),
-    
+    path('products/', views.ProductListApiView.as_view(), name='products'),
+    path('products/<int:pk>/', views.ProductDetailAPIView.as_view(), name='products-detail'),
+    path('profile/', views.ProfileAPIView.as_view(), name='profile'),
+
     # Djoser (регистрация, смена пароля и т. д.)
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'drf_yasg',
+    'captcha',
     
     # apps
     'shop.apps.ShopConfig',
@@ -183,6 +184,16 @@ DJOSER = {
 
 }
 
+# Captcha
+CAPTCHA_CHALLENGE_FUNCT = 'captcha.helpers.math_challenge'  # Включение математической капчи
+CAPTCHA_LETTER_ROTATION = (-35, 35)  # Наклон символов
+CAPTCHA_BACKGROUND_COLOR = "#98d8db"  # Цвет фона
+CAPTCHA_FOREGROUND_COLOR = "#000000"  # Цвет текста
+CAPTCHA_FONT_SIZE = 30  # Размер шрифта
+CAPTCHA_IMAGE_SIZE = (200, 100)  # Размер изображения
+CAPTCHA_TIMEOUT = 5  # Время жизни в минутах
+# Самодельная капча функция
+CAPTCHA_CHALLENGE_FUNCT = 'account.captcha_helpers.custom_math_challenge'
 
 # Здесь все что касается настроек авторизации по email(пока не нужно)
 # def email_verified_callback(user):

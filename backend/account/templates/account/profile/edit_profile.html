@@ -47,24 +47,6 @@
                     </form>
 
                     <hr class="my-3">
-                    
-                    <h6 class="mb-2">Сменить пароль</h6>
-                    <form method="post" action="{% url 'account:change_password' %}">
-                        {% csrf_token %}
-                        <div class="mb-2">
-                            <label for="old_password" class="form-label small">Текущий пароль</label>
-                            <input type="password" class="form-control form-control-sm" id="old_password" name="old_password" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="new_password1" class="form-label small">Новый пароль</label>
-                            <input type="password" class="form-control form-control-sm" id="new_password1" name="new_password1" required>
-                        </div>
-                        <div class="mb-2">
-                            <label for="new_password2" class="form-label small">Подтвердите пароль</label>
-                            <input type="password" class="form-control form-control-sm" id="new_password2" name="new_password2" required>
-                        </div>
-                        <button type="submit" class="btn btn-sm btn-warning w-100">Сменить пароль</button>
-                    </form>
                 </div>
             </div>
         </div>

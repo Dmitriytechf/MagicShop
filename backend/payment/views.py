@@ -66,6 +66,7 @@ def complete_order(request):
     if request.method == 'POST':
         payment_type = request.POST.get('stripe-payment', 'yookassa-payment')
 
+        # Достаем данные из post запроса формы
         full_name = request.POST.get('full_name')
         email = request.POST.get('email')
         street_adress = request.POST.get('street_adress')
@@ -160,12 +161,13 @@ def payment_fail(request):
 
 
 def admin_order_pdf(request, order_id):
+    '''Создаем pdf файл для заказов'''
     order = get_object_or_404(Order, id=order_id)
     # Рендерим HTML
     html = render_to_string('payment/pdf/order_pdf.html', {'order': order})
     # Создаём PDF-ответ
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    response['Content-Disposition'] = f'filename=orderID_{order.id}.pdf'
     # Конвертируем в PDF
     pisa.CreatePDF(html, dest=response)
 
