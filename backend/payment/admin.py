@@ -25,8 +25,15 @@ class ShipingAdressAdmin(admin.ModelAdmin):
 
 
 class OrderItemInline(admin.TabularInline):
+    '''Отображение отдельных продуктов в админ панели'''
     model = OrderItem
-    extra = 0
+    extra = 0 # Количество пустых форм
+
+    def has_add_permission(self, request, obj=None):
+        return False # Запрет на добавление новых OrderItem
+
+    def has_delete_permission(self, request, obj = ...):
+        return False # Запрет на удаление новых OrderItem
 
     def get_readonly_fields(self, request, obj=None):
         if obj:
@@ -41,7 +48,7 @@ class OrderAdmin(admin.ModelAdmin):
                     'created', 'updated', 'paid', 'order_pdf'
     ]
     list_filter = ['paid', 'updated','created',]
-    inlines = [OrderItemInline]
+    inlines = [OrderItemInline] # Отображение товаров в админке заказа
     list_per_page = 15 # Пагинация
     list_display_links = ['id', 'user']
 
