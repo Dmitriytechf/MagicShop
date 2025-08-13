@@ -1,0 +1,105 @@
+<div class="col-12 mt-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header py-3" 
+            style="background: linear-gradient(135deg, #e7e9edff 0%rgba(200, 204, 208, 1)ff 100%);">
+            <div class="d-flex align-items-end">  
+                <div class="d-flex align-items-center">  
+                    <h3 class="mb-0 fw-semibold">Отзывы о товаре</h3>
+                </div>
+                
+                {% if reviews %}
+                    <span class="badge bg-success rounded-pill ms-2 align-self-center" 
+                    style="transform: translateY(-6px);">
+                        {{ reviews|length }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <!-- Отдельный отзыв -->
+            {% if reviews %}
+                <div class="mb-4">
+                    {% for review in reviews %}
+                        <div class="mb-3 pb-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="mb-0">{{ review.author }}</h5>
+                                
+                                <!-- Контейнер для звезд и кнопки удаления -->
+                                <div class="d-flex align-items-center">
+                                    <!-- Звезды -->
+                                    <div class="text-warning me-2">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="bi bi-star-fill"></i>
+                                            {% else %}
+                                                <i class="bi bi-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    <!-- Кнопка удаления -->
+                                    {% if request.user == review.author %}
+                                        <form method="post" action="{% url 'shop:delete-review' review.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" 
+                                                    class="btn btn-sm btn-outline-danger" 
+                                                    onclick="return confirm('Вы уверены, что хотите удалить Ваш отзыв?')">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <p class="text-muted small">{{ review.created_at|date:"d.m.Y H:i" }}</p>
+                            <p>{{ review.text_review }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">Пока нет отзывов. Будьте первым!</p>
+            {% endif %}
+
+            <!-- Форма добавления отзыва -->
+            <div class="pt-1 mt-1">
+                <form method="post" action="{% url 'shop:product-detail' product.slug %}" 
+                class="p-3 rounded-3" style="background-color: #f0f2f5;">
+                    <h4 class="mb-4 fw-semibold text-dark d-flex align-items-center">
+                        <i class="bi bi-pencil-square me-2"></i>Оставить отзыв
+                    </h4>
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <!-- Поле оценки -->
+                        <div class="col-12">
+                            <label for="id_rating" class="form-label fw-medium">
+                                Ваша оценка (от 1 до 5)
+                            </label>
+                            <div class="p-2 rounded">
+                                {{ form.rating }}
+                            </div>
+                        </div>
+                        
+                        <!-- Поле текста отзыва -->
+                        <div class="col-12">
+                            <label for="id_text" class="form-label fw-medium">
+                                Текст отзыва к товару
+                            </label>
+                            <div class="p-2 rounded">
+                                {{ form.text_review }}
+                            </div>
+                        </div>
+                        
+                        <!-- Кнопка отправки -->
+                        <div class="col-12 pt-2">
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">
+                                <i class="bi bi-send-fill me-2"></i>Отправить отзыв
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

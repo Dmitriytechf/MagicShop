@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product
+from .models import Category, Product, Review
 
 
 @admin.register(Category)
@@ -24,4 +24,9 @@ class ProductAdmin(admin.ModelAdmin):
         return {
             'slug': ('title',),
         }
-    
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('product', 'author', 'text_review', 'rating', 'created_at')
+    ordering = ('-created_at',)

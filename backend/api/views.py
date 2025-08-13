@@ -6,13 +6,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from account.models import Profile
-from shop.models import Product
 from payment.models import Order
+from shop.models import Product
 
 from .pagination import StandardResultsSetPagination
-from .permissions import IsAdminOrReadOnly, IsAdminOnly
-from .serializers import (ProductDetailSerializer, ProductSerializer,
-                          ProfileSerializer, OrderSerializer)
+from .permissions import IsAdminOnly, IsAdminOrReadOnly
+from .serializers import (OrderSerializer, ProductDetailSerializer,
+                          ProductSerializer, ProfileSerializer)
 
 
 class ProductListApiView(generics.ListAPIView):

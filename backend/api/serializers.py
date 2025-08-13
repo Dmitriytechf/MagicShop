@@ -3,9 +3,8 @@ from djoser.serializers import UserCreateSerializer
 from rest_framework import serializers
 
 from account.models import Profile
-from shop.models import Category, Product
 from payment.models import Order
-
+from shop.models import Category, Product
 
 User = get_user_model()
 

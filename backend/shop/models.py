@@ -1,6 +1,7 @@
 import random
 import string
 
+from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
@@ -8,6 +9,8 @@ from django.utils.text import slugify
 
 # Сделаем отдельно константы
 SLUG_PREFIX = "pickBetter"
+
+User = get_user_model()
 
 def rand_slug():
     '''Создаем строку случайных символов и букв из трех элементов'''
@@ -114,4 +117,31 @@ class ProductProxy(Product):
         proxy = True # Указывает, что это прокси-модель
         verbose_name = 'Доступный продукт'
         verbose_name_plural = 'Доступные продукты'
-    
+
+
+class Review(models.Model):
+    '''Модель отзывов'''
+    product = models.ForeignKey(
+        Product, 
+        on_delete=models.CASCADE, 
+        related_name='reviews')
+    author = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE,
+        related_name='reviews',)
+    text_review = models.TextField(max_length=1000, 
+                                   verbose_name='Текст отзыва')
+    rating = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name='Рейтинг'
+    )
+    created_at = models.DateTimeField(auto_now_add=True, 
+                                      verbose_name='Дата создания')
+
+    def __str__(self):
+        return f'Автор: {self.author}. Отзыв: {self.text_review}'
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'
+        unique_together = ['product', 'author'] # Можно оставить только один отзыв на товар
