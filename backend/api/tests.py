@@ -1,12 +1,14 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
-from rest_framework.test import APITestCase, APIClient
 from django.urls import reverse
 from rest_framework import status
-from django.contrib.auth import get_user_model
+from rest_framework.test import APIClient, APITestCase
 
-from .serializers import ProductSerializer, ProductDetailSerializer, ProfileSerializer
-from shop.models import Category, Product
 from account.models import Profile
+from shop.models import Category, Product
+
+from .serializers import (ProductDetailSerializer, ProductSerializer,
+                          ProfileSerializer)
 
 
 class APIViewTest(APITestCase):

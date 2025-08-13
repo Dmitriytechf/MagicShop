@@ -1,4 +1,5 @@
 from random import randint
+
 from captcha.helpers import math_challenge
 
 

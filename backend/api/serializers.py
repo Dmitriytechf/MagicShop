@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers
 from djoser.serializers import UserCreateSerializer
+from rest_framework import serializers
 
-from shop.models import Category, Product
 from account.models import Profile
+from shop.models import Category, Product
+from payment.models import Order
 
 
 User = get_user_model()
@@ -35,6 +36,20 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         model = Product
         fields = ["id", "title", "slug", "brand", "category", "price",
                   "image", "available", "discount", "created_at", "update_at", "discount"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+    user = serializers.CharField(source='user.username', 
+                                 read_only=True)
+    shipping_adress = serializers.StringRelatedField()
+    created = serializers.DateTimeField(format="%H:%M:%S %d.%m.%Y")
+    updated = serializers.DateTimeField(format="%H:%M:%S %d.%m.%Y")
+
+    class Meta:
+        model = Order
+        fields = ["id", "user", "shipping_adress", "amount", 
+                  "created", "paid", "discount", "updated"]
 
 
 class ProfileSerializer(serializers.ModelSerializer):

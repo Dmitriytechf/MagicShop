@@ -1,9 +1,9 @@
+from captcha.fields import CaptchaField
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
                                        UserCreationForm)
 from django.forms.widgets import PasswordInput, TextInput
-from captcha.fields import CaptchaField
 
 from .models import Profile
 

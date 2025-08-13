@@ -4,7 +4,6 @@ from drf_yasg.views import get_schema_view
 
 from . import views
 
-
 app_name = 'api'
 
 schema_view = get_schema_view(
@@ -24,6 +23,7 @@ urlpatterns = [
     path('products/', views.ProductListApiView.as_view(), name='products'),
     path('products/<int:pk>/', views.ProductDetailAPIView.as_view(), name='products-detail'),
     path('profile/', views.ProfileAPIView.as_view(), name='profile'),
+    path('order/<int:pk>/', views.OrderAPIView.as_view(), name='order'),
 
     # Djoser (регистрация, смена пароля и т. д.)
     path('auth/', include('djoser.urls')),

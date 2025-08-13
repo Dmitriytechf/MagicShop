@@ -7,12 +7,16 @@ from rest_framework.views import APIView
 
 from account.models import Profile
 from shop.models import Product
-from .serializers import ProductSerializer, ProductDetailSerializer, ProfileSerializer
-from .permissions import IsAdminOrReadOnly
+from payment.models import Order
+
 from .pagination import StandardResultsSetPagination
+from .permissions import IsAdminOrReadOnly, IsAdminOnly
+from .serializers import (ProductDetailSerializer, ProductSerializer,
+                          ProfileSerializer, OrderSerializer)
 
 
 class ProductListApiView(generics.ListAPIView):
+    '''API функция списка продуктов'''
     queryset = Product.objects.select_related('category').order_by('id')
     serializer_class = ProductSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -20,6 +24,7 @@ class ProductListApiView(generics.ListAPIView):
 
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
+    '''API функция отдельного продукта'''
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -28,7 +33,16 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
 
 
 class ProfileAPIView(generics.ListAPIView):
+    '''API функция акаунта пользователя'''
     queryset = Profile.objects.all().order_by('id')
     serializer_class = ProfileSerializer
     permission_classes = [IsAdminOrReadOnly]
+    pagination_class = StandardResultsSetPagination
+
+
+class OrderAPIView(generics.RetrieveAPIView):
+    '''API функция заказа пользователя'''
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAdminOnly] # Разрешаем только админу читать данные
     pagination_class = StandardResultsSetPagination

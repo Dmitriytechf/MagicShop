@@ -36,6 +36,7 @@ class OrderItemInline(admin.TabularInline):
         return False # Запрет на удаление новых OrderItem
 
     def get_readonly_fields(self, request, obj=None):
+        '''Как будет показываться отдельный продукт'''
         if obj:
             return ['price', 'product', "quantity", "user"]
         return super().get_readonly_fields(request, obj)
