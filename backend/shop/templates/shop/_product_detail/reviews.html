@@ -6,10 +6,10 @@
                 <div class="d-flex align-items-center">  
                     <h3 class="mb-0 fw-semibold">Отзывы о товаре</h3>
                 </div>
-                
+
                 {% if reviews %}
                     <span class="badge bg-success rounded-pill ms-2 align-self-center" 
-                    style="transform: translateY(-6px);">
+                          style="transform: translateY(-6px);">
                         {{ reviews|length }}
                     </span>
                 {% endif %}
@@ -19,13 +19,13 @@
         <div class="card-body p-4">
             <!-- Отдельный отзыв -->
             {% if reviews %}
-                <div class="mb-4">
+                <div class="mb-4" id="reviews-container">
                     {% for review in reviews %}
                         <div class="mb-3 pb-3 border-bottom">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h5 class="mb-0">{{ review.author }}</h5>
-                                
-                                <!-- Контейнер для звезд и кнопки удаления -->
+
+                                <!-- Контейнер для звезд и кнопки удаления/редактирования -->
                                 <div class="d-flex align-items-center">
                                     <!-- Звезды -->
                                     <div class="text-warning me-2">
@@ -38,16 +38,24 @@
                                         {% endfor %}
                                     </div>
 
-                                    <!-- Кнопка удаления -->
                                     {% if request.user == review.author %}
-                                        <form method="post" action="{% url 'shop:delete-review' review.pk %}">
-                                            {% csrf_token %}
-                                            <button type="submit" 
-                                                    class="btn btn-sm btn-outline-danger" 
-                                                    onclick="return confirm('Вы уверены, что хотите удалить Ваш отзыв?')">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                        <div class="d-flex align-items-center ms-1" style="gap: 8px;">
+                                            <!-- Кнопка редактирования -->
+                                            <a href="{% url 'shop:edit-review' review.pk %}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+
+                                            <!-- Кнопка удаления -->
+                                            <form method="post" action="{% url 'shop:delete-review' review.pk %}">
+                                                {% csrf_token %}
+                                                <button type="submit" 
+                                                        class="btn btn-sm btn-outline-danger" 
+                                                        onclick="return confirm('Вы уверены, что хотите удалить Ваш отзыв?')">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     {% endif %}
                                 </div>
                             </div>
@@ -61,14 +69,36 @@
                 <p class="text-muted">Пока нет отзывов. Будьте первым!</p>
             {% endif %}
 
-            <!-- Форма добавления отзыва -->
+            <!-- Кнопка показать еще -->
+            {% if reviews.has_next %}
+                <div class="text-center mt-3">
+                    <button id="load-more-reviews" 
+                            class="btn btn-outline-primary"
+                            data-next-page="{{ reviews.next_page_number }}"
+                            data-slug="{{ product.slug }}">
+                        Еще
+                        <span class="badge bg-secondary ms-2">
+                            {{ reviews.paginator.count|add:"-5" }}
+                        </span>
+                    </button>
+                </div>
+            {% endif %}
+
+            <!-- Форма добавления/редактирования отзыва -->
             <div class="pt-1 mt-1">
-                <form method="post" action="{% url 'shop:product-detail' product.slug %}" 
-                class="p-3 rounded-3" style="background-color: #f0f2f5;">
+                <form method="post" action="{% if editing_review %}{% url 'shop:edit-review' editing_review %}
+                      {% else %}{% url 'shop:product-detail' product.slug %}{% endif %}" 
+                      class="p-3 rounded-3" style="background-color: #f0f2f5;">
                     <h4 class="mb-4 fw-semibold text-dark d-flex align-items-center">
-                        <i class="bi bi-pencil-square me-2"></i>Оставить отзыв
+                        <i class="bi bi-pencil-square me-2"></i>
+                        {% if editing_review %}Редактировать отзыв{% else %}Оставить отзыв{% endif %}
                     </h4>
                     {% csrf_token %}
+
+                    {% if editing_review %}
+                        <input type="hidden" name="review_id" value="{{ editing_review }}">
+                    {% endif %}
+
                     <div class="row g-3">
                         <!-- Поле оценки -->
                         <div class="col-12">
@@ -79,7 +109,7 @@
                                 {{ form.rating }}
                             </div>
                         </div>
-                        
+
                         <!-- Поле текста отзыва -->
                         <div class="col-12">
                             <label for="id_text" class="form-label fw-medium">
@@ -89,12 +119,21 @@
                                 {{ form.text_review }}
                             </div>
                         </div>
-                        
+
                         <!-- Кнопка отправки -->
                         <div class="col-12 pt-2">
                             <button type="submit" class="btn btn-primary w-100 py-2 fw-medium">
-                                <i class="bi bi-send-fill me-2"></i>Отправить отзыв
+                                <i class="bi bi-send-fill me-2"></i>
+                                {% if editing_review %}Сохранить изменения{% else %}
+                                Отправить отзыв{% endif %}
                             </button>
+
+                            {% if editing_review %}
+                                <a href="{% url 'shop:product-detail' product.slug %}" 
+                                   class="btn btn-outline-secondary w-100 mt-2 py-2 fw-medium">
+                                    Отменить редактирование
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </form>
@@ -103,3 +142,36 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('load-more-reviews')?.addEventListener('click', function() {
+    const button = this;
+    const nextPage = button.dataset.nextPage;
+    const slug = button.dataset.slug;
+
+    // Показываем индикатор загрузки
+    button.disabled = true;
+    button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Загрузка...';
+
+    fetch(`?page=${nextPage}`)
+        .then(response => response.text())
+        .then(html => {
+            // Парсим полученный HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Добавляем новые отзывы
+            const newReviews = doc.getElementById('reviews-container').innerHTML;
+            
+            document.getElementById('reviews-container').insertAdjacentHTML('beforeend', newReviews);
+
+            // Обновляем кнопку или удаляем ее, если отзывы закончились
+            const newButton = doc.getElementById('load-more-reviews');
+            if (newButton) {
+                button.outerHTML = newButton.outerHTML;
+            } else {
+                button.remove();
+            }
+        });
+});
+</script>

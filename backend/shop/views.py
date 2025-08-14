@@ -69,7 +69,12 @@ def product_detail(request, slug):
     '''
     product = get_object_or_404(ProductProxy, slug=slug)
     # Достаем все отзывы
-    reviews = product.reviews.all()
+    all_reviews = product.reviews.all()
+
+    # Пагинация
+    page = request.GET.get('page', 1)
+    paginator = Paginator(all_reviews, 5)
+    reviews = paginator.get_page(page)
 
     # Обработка отзывов
     if request.method == 'POST':
@@ -86,8 +91,37 @@ def product_detail(request, slug):
     context = {
         'product': product,
         'reviews': reviews,
-        'form': form
+        'form': form,
+        'total_reviews': all_reviews.count()
         }
+
+    return render(request, 'shop/product_detail.html', context)
+
+
+@login_required
+def edit_review(request, pk):
+    '''Функция редактирования отзыва'''
+    review = get_object_or_404(Review, pk=pk)
+    product_slug = review.product.slug
+
+    # Проверка что пользователь - автор отзыва. Лучше оставить, так безопаснее
+    if request.user != review.author:
+        return redirect('shop:product-detail', slug=product_slug)
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('shop:product-detail', slug=product_slug)
+    else:
+        form = ReviewForm(instance=review)
+
+    context = {
+        'product': review.product,
+        'reviews': review.product.reviews.all(),
+        'form': form,
+        'editing_review': review.id
+    }
 
     return render(request, 'shop/product_detail.html', context)
 
