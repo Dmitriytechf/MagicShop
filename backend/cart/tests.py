@@ -4,7 +4,6 @@ from http import HTTPStatus
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
-
 from shop.models import Category, ProductProxy
 
 from .views import cart_add, cart_delete, cart_update, cart_view

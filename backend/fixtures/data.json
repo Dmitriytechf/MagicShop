@@ -1,0 +1,341 @@
+[
+{
+  "model": "auth.user",
+  "pk": 14,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$9CQ9hOPfBk1MVjjLZNn7xa$D+OnPb6FDXaLZZHecUZtYba73BkhEDuQa7EqqcQXT0Q=",
+    "last_login": "2025-08-12T10:15:12.578Z",
+    "is_superuser": true,
+    "username": "dima",
+    "first_name": "",
+    "last_name": "",
+    "email": "asdajs@mail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-08-03T15:17:53.750Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 15,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$dpzsepeqe5yE7i8TBBAS0f$oyfiQ9yXnsTWFTVDeIgmIPUpTSEF6qjBiv/GgHx5TBo=",
+    "last_login": "2025-08-11T15:28:17.974Z",
+    "is_superuser": false,
+    "username": "Leo",
+    "first_name": "",
+    "last_name": "",
+    "email": "leoleo123@mail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-08-04T05:47:02.011Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 1,
+  "fields": {
+    "name": "Magic items",
+    "parent": null,
+    "slug": "magic-items",
+    "created_at": "2025-07-19T12:14:50.206Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 2,
+  "fields": {
+    "name": "Magical weapons",
+    "parent": 1,
+    "slug": "magical-weapons",
+    "created_at": "2025-07-19T12:15:48.000Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 3,
+  "fields": {
+    "name": "Laser sword",
+    "parent": 2,
+    "slug": "laser-sword",
+    "created_at": "2025-07-19T12:19:43.147Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 4,
+  "fields": {
+    "name": "Magic wands",
+    "parent": 2,
+    "slug": "magic-wands",
+    "created_at": "2025-07-25T07:41:46.121Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 5,
+  "fields": {
+    "name": "Other",
+    "parent": 1,
+    "slug": "other",
+    "created_at": "2025-07-25T07:45:52.421Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 6,
+  "fields": {
+    "name": "Map",
+    "parent": 5,
+    "slug": "map",
+    "created_at": "2025-07-25T07:46:02.263Z"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 7,
+  "fields": {
+    "name": "Sword",
+    "parent": 2,
+    "slug": "sword",
+    "created_at": "2025-07-25T07:48:08.476Z"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 1,
+  "fields": {
+    "category": 3,
+    "title": "Световой меч мастера Йоды",
+    "brand": "LaserSword",
+    "description": "Эксклюзивный товар ручной работы. Делается на заказ, индивидуально.\r\nСветовой меч Йоды — личное оружие мастера-джедая Йоды. Отличительной особенностью меча были его размеры, которые должны были соответствовать размерам владельца. Будучи в два раза меньше стандартного клинка, меч Йоды фактически относился к классу шото. В последний раз Йода использовал свой меч в 19 ДБЯ в дуэли с Палпатином. Отправившись в добровольное изгнание на Дагобу, он больше никогда не активировал световой клинок, храня его в шкатулке в своей хижине.",
+    "slug": "lazernyj-mech-mastera-jody",
+    "price": "999.99",
+    "image": "products/products/2025/07/20/yodasword.jpg",
+    "available": true,
+    "created_at": "2025-07-20T11:56:08.029Z",
+    "update_at": "2025-08-06T10:22:44.355Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 2,
+  "fields": {
+    "category": 3,
+    "title": "Световой меч Люка",
+    "brand": "LaserSword",
+    "description": "Уникальный меч Люка Скайуокера из «Звёздных войн». Принадлежал джедаю Люку Скайуокеру и использовался им в течение многих лет. Стань и ты обладателем силы!",
+    "slug": "lazernyj-mech-lyuka",
+    "price": "99.99",
+    "image": "products/products/2025/07/20/lukesword.webp",
+    "available": true,
+    "created_at": "2025-07-20T11:59:39.295Z",
+    "update_at": "2025-08-06T10:22:49.852Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 3,
+  "fields": {
+    "category": 3,
+    "title": "Световой меч Оби-Вана Кеноби",
+    "brand": "LaserSword",
+    "description": "Все три меча Кеноби имели синее лезвие — символ его преданности Ордену джедаев и светлой стороне Силы. Ниже представлена одна из моделей меча легендарного джедая и наставника.",
+    "slug": "lazernyj-mech-obi-vana-kenobi",
+    "price": "200.99",
+    "image": "products/products/2025/07/20/obivansword.jpg",
+    "available": true,
+    "created_at": "2025-07-20T12:00:25.978Z",
+    "update_at": "2025-08-06T10:22:33.911Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 4,
+  "fields": {
+    "category": 4,
+    "title": "Волшебная палочка Гарри Поттера",
+    "brand": "MagicWands",
+    "description": "Волшебная палочка Гарри Поттера (англ. Harry Potter's Wand) — палочка из остролиста с сердцевиной из пера феникса, изготовленная мастером Гарриком Олливандером.",
+    "slug": "volshebnaya-palochka-garri-pottera",
+    "price": "29.99",
+    "image": "products/products/2025/07/25/orig.webp",
+    "available": true,
+    "created_at": "2025-07-25T07:43:02.763Z",
+    "update_at": "2025-08-06T10:26:59.536Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 5,
+  "fields": {
+    "category": 4,
+    "title": "Волшебная палочка Дамблдора",
+    "brand": "MagicWands",
+    "description": "Бузинная палочка (англ. Elder Wand) — волшебная палочка из вселенной Гарри Поттера, один из легендарных «Даров Смерти». Принадлежала Альбусу Дамблдору — директору школы чародейства и волшебства Хогвартс.",
+    "slug": "volshebnaya-palochka-dambldora",
+    "price": "25.99",
+    "image": "products/products/2025/07/25/uo1wjexaeqdkeq1h7ga1dszqizxv8zxx.jpeg",
+    "available": true,
+    "created_at": "2025-07-25T07:43:41.433Z",
+    "update_at": "2025-08-06T10:27:24.102Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 6,
+  "fields": {
+    "category": 6,
+    "title": "Карта мира. Средиземье",
+    "brand": "MagicMap",
+    "description": "«Средиземье» (англ. Middle-earth) — континент, место действия в вымышленной вселенной легендариума Дж. Р. Р. Толкина. Толкин не раз отмечал, что Средиземье находится на нашей Земле, но в далёком прошлом. В Средиземье полностью разворачиваются события произведений «Хоббит» и «Властелин колец», частично — «Сильмариллиона» и «Неоконченных сказаний».",
+    "slug": "karta-mira-sredizeme",
+    "price": "49.99",
+    "image": "products/products/2025/07/25/s-l1600.jpg",
+    "available": true,
+    "created_at": "2025-07-25T07:46:42.741Z",
+    "update_at": "2025-08-06T10:24:26.506Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 7,
+  "fields": {
+    "category": 6,
+    "title": "Карта мира. Ведьмак",
+    "brand": "MagicMap",
+    "description": "Мир «Ведьмака» (англ. Neverland, англ. The Continent) — фэнтэзийная вымышленная вселенная, созданная польским писателем Анджеем Сапковским. Описана в цикле «Ведьмак», состоящем из восьми книг и нескольких отдельных рассказов.\r\nДействие происходит на Континенте (официального имени миру Сапковский не дал). Большая часть суши находится в северном полушарии.",
+    "slug": "karta-mira-vedmak",
+    "price": "39.99",
+    "image": "products/products/2025/07/25/og_og_1601119405287238906.jpg",
+    "available": true,
+    "created_at": "2025-07-25T07:47:51.656Z",
+    "update_at": "2025-08-06T10:23:38.627Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 8,
+  "fields": {
+    "category": 7,
+    "title": "Меч Геральта",
+    "brand": "MagicSword",
+    "description": "Хочешь быть похожим на легендарного убийцу чудовищ и свирепого война? Тогда ведьмачий меч подойдет в самый раз!",
+    "slug": "mech-geralta",
+    "price": "109.99",
+    "image": "products/products/2025/07/25/i.webp",
+    "available": true,
+    "created_at": "2025-07-25T07:49:15.715Z",
+    "update_at": "2025-08-06T10:26:24.284Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 9,
+  "fields": {
+    "category": 7,
+    "title": "Меч Бильбо (Жало)",
+    "brand": "MagicSword",
+    "description": "«Жало» (англ. Sting, другие варианты перевода — Тёрн, Шершень) — короткий меч (кинжал) из легендариума Дж. Р. Р. Толкина. Упоминается в повести «Хоббит, или Туда и обратно».\r\nДлина клинка — около 45 см, общая длина меча — около 65 см. \r\nШирина гарды — около 14 см. \r\nМасса меча — 900 г.",
+    "slug": "mech-bilbozhalo",
+    "price": "99.99",
+    "image": "products/products/2025/07/25/bilbo.webp",
+    "available": true,
+    "created_at": "2025-07-25T07:50:33.785Z",
+    "update_at": "2025-08-06T10:25:10.603Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 10,
+  "fields": {
+    "category": 7,
+    "title": "Нарсиль",
+    "brand": "SredezemyaSword",
+    "description": "Нарсил (корректная передача — На́рсиль) — меч в легендариуме Дж. Р. Р. Толкина. Выкован в Первую Эпоху гномом Телхаром, лучшим оружейником Ногрода.Название меча связано с Солнцем и Луной: «На́р» и «силь» переводится с эльфийского как «огонь» и «белый свет». Во время войны за кольцо «Нарсил» восстанавливают: обломки клинка сковывают вместе, и он в некотором смысле возрождается под названием «Андрил» («Пламя Запада»).",
+    "slug": "narsil",
+    "price": "309.99",
+    "image": "products/products/2025/08/06/cleber-moretti-narsil-01-ed.jpg",
+    "available": true,
+    "created_at": "2025-08-06T10:15:54.270Z",
+    "update_at": "2025-08-06T10:15:54.270Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 11,
+  "fields": {
+    "category": 6,
+    "title": "Карта Мародёров",
+    "brand": "MapMagic",
+    "description": "Карта Мародёров (англ. Marauder’s Map) — особая карта из серии книг Джоан Роулинг, которая показывает замок Хогвартс и его ближайшие окрестности, а также местоположение любого человека в замке, даже если он прячется под мантией-невидимкой.",
+    "slug": "karta-marodyorov",
+    "price": "29.99",
+    "image": "products/products/2025/08/06/4aa8b3d8da064629f6a7594f0507972a.jpg",
+    "available": true,
+    "created_at": "2025-08-06T10:17:08.408Z",
+    "update_at": "2025-08-06T10:17:08.408Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 12,
+  "fields": {
+    "category": 7,
+    "title": "Андуриль",
+    "brand": "SredezemyaSword",
+    "description": "Принадлежал Элендилу, королю Арнора и Гондора. В битве Последнего Союза эльфов и людей против Саурона Элендил пал в схватке, а его меч был сломан. Однако осколки Нарсиля сохранились, и позже меч был перекован для Арагорна и получил новое имя — Андуриль («Пламя Запада»). На лезвии меча выгравированы «семь звёзд между полумесяцем и лучистым солнцем в обрамлении из круга рун».",
+    "slug": "anduril",
+    "price": "500.99",
+    "image": "products/products/2025/08/07/i_1.webp",
+    "available": true,
+    "created_at": "2025-08-07T08:03:45.007Z",
+    "update_at": "2025-08-07T08:03:45.007Z",
+    "discount": 0
+  }
+},
+{
+  "model": "shop.review",
+  "pk": 5,
+  "fields": {
+    "product": 3,
+    "author": 14,
+    "text_review": "Только фото лучше найти надо. А так все просто идеально! Еще и доставка с помощью сов!!!",
+    "rating": 5,
+    "created_at": "2025-08-13T12:52:45.927Z"
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 7,
+  "fields": {
+    "user": 14,
+    "avatar": "avatars/ши_тцу_viuWx09.jpg",
+    "cart_data": {}
+  }
+},
+{
+  "model": "account.profile",
+  "pk": 8,
+  "fields": {
+    "user": 15,
+    "avatar": "avatars/i_3_9WxtD57.webp",
+    "cart_data": {}
+    }
+}
+]

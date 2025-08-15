@@ -6,6 +6,18 @@ volumes:
   media_data:
 
 services:
+  db:
+    image: postgres:14-alpine
+    container_name: magic-db
+    environment:
+      POSTGRES_USER: mag 
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: magicshop
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
   backend:
     build: ./backend
     container_name: magic-backend
@@ -13,9 +25,13 @@ services:
     volumes:
       - static_data:/app/static
       - media_data:/app/media
-      - ./backend/db.sqlite3:/app/db.sqlite3 
+      - ./backend/fixtures:/app/backend/fixtures
+    depends_on:
+      - db
     ports:
       - 8000:8000
+    links:
+      - db
     restart: always
     command: sh -c "python3 manage.py makemigrations &&
                     python3 manage.py migrate &&
@@ -33,10 +49,10 @@ services:
     container_name: magic-celery
     env_file: .env
     depends_on:
+      - db
       - redis
     volumes:
       - static_data:/app/static
-      - ./backend/db.sqlite3:/app/db.sqlite3
     restart: always
     command: celery -A bigcorp worker --loglevel=info --beat
 

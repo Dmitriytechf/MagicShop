@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+load_dotenv() # Загрузка переменных из .env
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Оплата stripe
@@ -88,13 +89,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'bigcorp.wsgi.application'
 
 
-# База данных(пока sqlite)
+# База данных
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # Используется PostgreSQL
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -139,7 +151,7 @@ LOGOUT_REDIRECT_URL = 'shop:products'  # Куда перенаправлять �
 
 
 # Celery
-CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_BROKER_URL = "redis://redis:6379/0" # Для локального теста redis://localhost:6379/0
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_RESULT_EXTENDED = True
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True

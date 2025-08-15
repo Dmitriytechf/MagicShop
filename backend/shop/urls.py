@@ -1,7 +1,7 @@
 from django.urls import include, path
 
-from .views import (category_list, delete_review, product_detail, 
-                    products_view, edit_review)
+from .views import (category_list, delete_review, edit_review, product_detail,
+                    products_view)
 
 app_name = 'shop'
 

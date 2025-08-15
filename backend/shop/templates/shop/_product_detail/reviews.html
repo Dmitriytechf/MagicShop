@@ -145,7 +145,7 @@
 
 <script>
 document.getElementById('load-more-reviews')?.addEventListener('click', function() {
-    const button = this;
+    const button = this; // ссылаемся на саму кнопку
     const nextPage = button.dataset.nextPage;
     const slug = button.dataset.slug;
 
@@ -154,7 +154,7 @@ document.getElementById('load-more-reviews')?.addEventListener('click', function
     button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Загрузка...';
 
     fetch(`?page=${nextPage}`)
-        .then(response => response.text())
+        .then(response => response.text()) // преобразует ответ в текст html
         .then(html => {
             // Парсим полученный HTML
             const parser = new DOMParser();
@@ -162,7 +162,7 @@ document.getElementById('load-more-reviews')?.addEventListener('click', function
 
             // Добавляем новые отзывы
             const newReviews = doc.getElementById('reviews-container').innerHTML;
-            
+            // Новые отзывы добавляются в самом конце
             document.getElementById('reviews-container').insertAdjacentHTML('beforeend', newReviews);
 
             // Обновляем кнопку или удаляем ее, если отзывы закончились

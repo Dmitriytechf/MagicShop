@@ -1,9 +1,8 @@
+from account.models import Profile
 from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer
-from rest_framework import serializers
-
-from account.models import Profile
 from payment.models import Order
+from rest_framework import serializers
 from shop.models import Category, Product
 
 User = get_user_model()
