@@ -1,11 +1,13 @@
+import random
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 from .forms import ReviewForm
-from .models import Category, ProductProxy, Review
+from .models import Category, ProductProxy, Review, Favorite
 
 
 def products_view(request):
@@ -71,6 +73,14 @@ def product_detail(request, slug):
     # Достаем все отзывы
     all_reviews = product.reviews.all()
 
+    # Проверяем, есть ли товар в избранном у пользователя
+    user_favorites = []
+    if request.user.is_authenticated:
+        user_favorites = Favorite.objects.filter(
+            user=request.user, 
+            product=product
+        ).values_list('product_id', flat=True)
+
     # Пагинация
     page = request.GET.get('page', 1)
     paginator = Paginator(all_reviews, 5)
@@ -88,11 +98,17 @@ def product_detail(request, slug):
     else:
         form = ReviewForm()
 
+    # Получаем случайный товар / исключаем текущий
+    all_product = ProductProxy.objects.exclude(id=product.id)
+    random_product = random.choice(all_product) if all_product.exists() else None
+
     context = {
         'product': product,
         'reviews': reviews,
         'form': form,
-        'total_reviews': all_reviews.count()
+        'total_reviews': all_reviews.count(),
+        'random_product': random_product,
+        'user_favorites': user_favorites
         }
 
     return render(request, 'shop/product_detail.html', context)
@@ -137,6 +153,39 @@ def delete_review(request, pk):
         review.delete()
 
     return redirect('shop:product-detail', slug=product_slug)
+
+
+@login_required
+def toggle_favorite(request, product_id):
+    '''Функция добавления в избранное'''
+    if request.method == 'POST':
+        product = get_object_or_404(ProductProxy, id=product_id)
+        favorite, created = Favorite.objects.get_or_create(user=request.user, product=product)
+
+        if not created:
+            favorite.delete()
+            return JsonResponse({'status': 'removed', 'is_favorite': False})
+
+        return JsonResponse({'status': 'added', 'is_favorite': True})
+
+    return JsonResponse({'status': 'error'}, status=400)
+
+
+@login_required
+def favorite_list(request):
+    '''Функция возвращает страницу избранных товаров пользователя'''
+    favorites = Favorite.objects.filter(user=request.user).select_related('product')
+
+    paginator = Paginator(favorites, 5)
+    page_number = request.GET.get('page')
+    favorite_list = paginator.get_page(page_number)
+
+    context = {
+        'favorite_list': favorite_list,
+        'title': 'Мои избранные товары'
+    }
+
+    return render(request, 'shop/favorites.html', context)
 
 
 def category_list(request, slug):

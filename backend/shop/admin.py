@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, Review
+from .models import Category, Product, Review, Favorite
 
 
 @admin.register(Category)
@@ -29,4 +29,10 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
     list_display = ('product', 'author', 'text_review', 'rating', 'created_at')
+    ordering = ('-created_at',)
+
+
+@admin.register(Favorite)
+class FavoriteAdmin(admin.ModelAdmin):
+    list_display = ('product', 'user', 'created_at')
     ordering = ('-created_at',)

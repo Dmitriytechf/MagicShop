@@ -1,0 +1,35 @@
+{% if random_product %}
+<div class="col-12 mt-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-light py-3">
+            <h3 class="mb-0">Случайный товар</h3>
+            <small class="text-muted">(Возможно, вам понравится!)</small>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="product-thumb-container" style="height: 200px;">
+                        {% if random_product.image %}
+                        <a href="{{ random_product.get_absolute_url }}">
+                            <img src="{{ random_product.image.url }}" class="img-fluid h-100 w-auto" alt="{{ random_product.title }}" style="object-fit: contain; max-width: 100%; cursor: zoom-in;">
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <h4><a href="{{ random_product.get_absolute_url }}" class="text-decoration-none">{{ random_product.title }}</a></h4>
+                    <p class="text-muted mb-2">Бренд: {{ random_product.brand }}</p>
+
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <h5 class="price text-primary mb-0">{{ random_product.price }} $</h5>
+                        <span class="badge bg-{% if random_product.available %}success{% else %}danger{% endif %}">
+                            {% if random_product.available %}В наличии{% else %}Нет в наличии{% endif %}
+                        </span>
+                    </div>
+                    <a href="{{ random_product.get_absolute_url }}" class="btn btn-outline-primary">Посмотреть товар</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

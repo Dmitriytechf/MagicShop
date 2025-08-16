@@ -25,7 +25,6 @@ services:
     volumes:
       - static_data:/app/static
       - media_data:/app/media
-      - ./backend/fixtures:/app/backend/fixtures
     depends_on:
       - db
     ports:

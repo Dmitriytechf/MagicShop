@@ -145,3 +145,23 @@ class Review(models.Model):
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
         unique_together = ['product', 'author'] # Можно оставить только один отзыв на товар
+
+
+class Favorite(models.Model):
+    '''Модель избранных товаров'''
+    product = models.ForeignKey(
+        Product, 
+        on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, 
+                                      verbose_name='Дата добавления')
+
+    def __str__(self):
+        return f'Пользователь {self.user} добавил {self.product} в избранное'
+
+    class Meta:
+        unique_together = ('user', 'product')
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранные товары'

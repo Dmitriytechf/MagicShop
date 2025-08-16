@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Мои избранные товары</h1>
+    
+    {% if favorite_list %}
+    <div class="row justify-content-center">
+        {% for favorite in favorite_list %}
+        <div class="col-lg-10 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="product-thumb-container" style="height: 200px; overflow: hidden; display: flex; align-items: center;">
+                                {% if favorite.product.image %}
+                                <a href="{{ favorite.product.get_absolute_url }}">
+                                    <img src="{{ favorite.product.image.url }}" class="img-fluid w-100" alt="{{ favorite.product.title }}" style="object-fit: cover; height: 100%; cursor: zoom-in;">
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4><a href="{{ favorite.product.get_absolute_url }}" class="text-decoration-none">{{ favorite.product.title }}</a></h4>
+                            <p class="text-muted mb-2">Бренд: {{ favorite.product.brand }}</p>
+
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <h5 class="price text-primary mb-0">{{ favorite.product.price }} $</h5>
+                                <span class="badge bg-{% if favorite.product.available %}success{% else %}danger{% endif %}">
+                                    {% if favorite.product.available %}В наличии{% else %}Нет в наличии{% endif %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex flex-column justify-content-start">
+                            <div class="d-flex mb-2">
+                                <button class="btn btn-outline-danger remove-favorite flex-grow-1" data-product-id="{{ favorite.product.id }}">
+                                    <i class="bi bi-heart-fill"></i> Удалить
+                                </button>
+                            </div>
+                            <a href="#" data-product-id="{{ favorite.product.id }}" class="btn btn-success add-to-cart-btn mb-2">
+                                В корзину
+                            </a>
+                            <a href="{{ favorite.product.get_absolute_url }}" class="btn btn-primary mb-2">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if favorite_list.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if favorite_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ favorite_list.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for num in favorite_list.paginator.page_range %}
+                {% if favorite_list.number == num %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% elif num > favorite_list.number|add:'-3' and num < favorite_list.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if favorite_list.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ favorite_list.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ favorite_list.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+     {% endif %}
+
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-heart text-muted" style="font-size: 3rem;"></i>
+        <h3 class="mt-3">Список избранного пуст</h3>
+        <p class="text-muted">Добавляйте товары в избранное, чтобы не потерять их</p>
+        <a href="{% url 'shop:products' %}" class="btn btn-primary mt-3">Перейти к товарам</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+$(document).on('click', '.add-to-cart-btn', function(e){
+    e.preventDefault();
+    const productId = $(this).data('product-id');
+    const productQty = 1;
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart:add-to-cart" %}',
+        data: {
+            product_id: productId,
+            product_qty: productQty,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(response){
+            document.getElementById('lblCartCount').textContent=response.qty;
+        },
+        error: function(error){
+            console.log(error);
+        }
+    })
+})
+
+document.querySelectorAll('.remove-favorite').forEach(button => {
+    button.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        const card = this.closest('.col-lg-10');
+        
+        fetch(`/toggle-favorite/${productId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'removed') {
+                card.remove();
+                
+                // Если это был последний товар, показываем сообщение
+                if (document.querySelectorAll('.remove-favorite').length === 0) {
+                    window.location.reload();
+                }
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
