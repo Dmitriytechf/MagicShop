@@ -30,6 +30,10 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend/${{ matrix.backend-app }}
+          pip install -r requirements.txt
+      - name: Start test
+        run: |
+          cd backend/${{ matrix.backend-app }}
           python manage.py test
 
   send-message:
