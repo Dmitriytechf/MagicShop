@@ -34,7 +34,7 @@ jobs:
 
   send-message:
     runs-on: ubuntu-latest
-    needs: [print-message, run-tests]
+    needs: [print-message, run-unit-test]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
