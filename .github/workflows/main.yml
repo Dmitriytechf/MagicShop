@@ -13,10 +13,28 @@ jobs:
     steps:
       - name: Print a message
         run: echo "Hello, World!"
+  
+  run-unit-test:
+    runs-on: ubuntu-latest
+    needs: print-message
+    strategy:
+      matrix:
+        backend-app: ['shop', 'otherapp', 'cart', 'account', 'api']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          cd backend/${{ matrix.backend-app }}
+          python manage.py test
 
   send-message:
     runs-on: ubuntu-latest
-    needs: print-message
+    needs: [print-message, run-tests]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
