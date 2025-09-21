@@ -65,8 +65,7 @@ jobs:
           DEBUG: "False"
         run: |
           cd backend
-          export DJANGO_DATABASES='{"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "test_db.sqlite3"}}'
-          python manage.py test
+          python manage.py test --settings=bigcorp.test_settings
 
   send-message:
     runs-on: ubuntu-latest
