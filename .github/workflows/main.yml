@@ -20,6 +20,11 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DEBUG: "False"
       DJANGO_SETTINGS_MODULE: bigcorp.settings
+      DB_NAME: ${{ secrets.DB_NAME || 'test_db' }}
+      DB_USER: ${{ secrets.DB_USER || 'postgres' }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD || 'password' }}
+      DB_HOST: ${{ secrets.DB_HOST || 'localhost' }}
+      DB_PORT: ${{ secrets.DB_PORT || '5432' }}
     strategy:
       matrix:
         backend-app: ['shop', 'otherapp', 'cart', 'account', 'api']
@@ -32,16 +37,31 @@ jobs:
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
           echo "DEBUG=False" >> $GITHUB_ENV
           echo "DJANGO_SETTINGS_MODULE=bigcorp.settings" >> $GITHUB_ENV
+          echo "DB_NAME=${{ secrets.DB_NAME || 'test_db' }}" >> $GITHUB_ENV
+          echo "DB_USER=${{ secrets.DB_USER || 'postgres' }}" >> $GITHUB_ENV
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD || 'password' }}" >> $GITHUB_ENV
+          echo "DB_HOST=${{ secrets.DB_HOST || 'localhost' }}" >> $GITHUB_ENV
+          echo "DB_PORT=${{ secrets.DB_PORT || '5432' }}" >> $GITHUB_ENV
 
       - name: Create .env file
         run: |
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > backend/.env
           echo "DEBUG=False" >> backend/.env
+          echo "DB_NAME=${{ secrets.DB_NAME || 'test_db' }}" >> backend/.env
+          echo "DB_USER=${{ secrets.DB_USER || 'postgres' }}" >> backend/.env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD || 'password' }}" >> backend/.env
+          echo "DB_HOST=${{ secrets.DB_HOST || 'localhost' }}" >> backend/.env
+          echo "DB_PORT=${{ secrets.DB_PORT || '5432' }}" >> backend/.env
 
       - name: Install python
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
+      
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpq-dev postgresql-client
 
       - name: Install dependencies
         run: |
