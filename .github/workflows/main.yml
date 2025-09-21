@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt
       - name: Start test
         run: |
-          cd backend
+          cd backend/${{ matrix.backend-app }}
           python manage.py test
 
   send-message:
