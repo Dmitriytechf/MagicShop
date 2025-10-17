@@ -64,7 +64,7 @@
 
 ## Админка
 <img width="1399" height="843" alt="image" src="https://github.com/user-attachments/assets/27cc937d-fd4f-4186-a3ce-5ceae385a068" />
-<img width="1462" height="883" alt="image" src="https://github.com/user-attachments/assets/6e682fb3-23ac-4473-a6f2-7fd54ea18dfb" />
+<img width="1503" height="868" alt="image" src="https://github.com/user-attachments/assets/694639e7-ca7c-4c78-878d-65b9feec5d90" />
 
 ## Главная страница, пагинация
 <img width="1605" height="880" alt="image" src="https://github.com/user-attachments/assets/72f06f32-03af-4366-99af-28b6a377c702" />
