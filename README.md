@@ -60,7 +60,11 @@
 - Docker
 - Nginx
 
-##  Внешний вид магазина
+#  Внешний вид магазина
+
+## Админка
+<img width="1399" height="843" alt="image" src="https://github.com/user-attachments/assets/27cc937d-fd4f-4186-a3ce-5ceae385a068" />
+<img width="1462" height="883" alt="image" src="https://github.com/user-attachments/assets/6e682fb3-23ac-4473-a6f2-7fd54ea18dfb" />
 
 ## Главная страница, пагинация
 <img width="1605" height="880" alt="image" src="https://github.com/user-attachments/assets/72f06f32-03af-4366-99af-28b6a377c702" />
