@@ -62,32 +62,36 @@
 
 ##  Внешний вид магазина
 
-### Главная страница, пагинация
+## Главная страница, пагинация
 <img width="1605" height="880" alt="image" src="https://github.com/user-attachments/assets/72f06f32-03af-4366-99af-28b6a377c702" />
 <img width="1526" height="827" alt="image" src="https://github.com/user-attachments/assets/762a5a25-cc6d-4f5f-bcbe-eb6d4ae70380" />
 
-### Корзина и оформление
+## Корзина и оформление
 <img width="1509" height="820" alt="image" src="https://github.com/user-attachments/assets/e403118e-7257-49a8-9498-c2d1bfa27c71" />
 <img width="1311" height="929" alt="image" src="https://github.com/user-attachments/assets/fe4435a3-b954-4a38-a743-9829c334597f" />
 
-### Отдельные товары, описание, характеристики
+## Отдельные товары, описание, характеристики
 <img width="1387" height="912" alt="image" src="https://github.com/user-attachments/assets/af17006a-869a-4efe-8631-d72a50c56fee" />
 <img width="1307" height="811" alt="image" src="https://github.com/user-attachments/assets/4738a7c4-b4ba-4b00-b6cf-e618206afe05" />
 
-### Избранное
+## Избранное
 <img width="1213" height="921" alt="image" src="https://github.com/user-attachments/assets/e0db41fc-6846-465a-9d7b-9831423acb02" />
 
-### Отзывы и похожие товары
+## Отзывы и похожие товары
 <img width="1050" height="725" alt="image" src="https://github.com/user-attachments/assets/780c7d0f-6ee7-4787-b062-211d4d1d5b0b" />
 <img width="1080" height="672" alt="image" src="https://github.com/user-attachments/assets/8551d4a3-f975-45c9-a35f-f55908fd8ba3" />
 <img width="1082" height="782" alt="image" src="https://github.com/user-attachments/assets/49453b1d-0013-4f7c-a9b2-3d20238be1e4" />
 
-### Фильтры и категории
+## Фильтры и категории
 <img width="1294" height="662" alt="image" src="https://github.com/user-attachments/assets/ea1a37a9-ccbd-4c10-96a2-8b5e5414ab2a" />
 
-### Профиль
+## Профиль
 <img width="1447" height="700" alt="image" src="https://github.com/user-attachments/assets/584f9f80-7689-42ed-a971-bb8003a44a50" />
 <img width="1392" height="728" alt="image" src="https://github.com/user-attachments/assets/1644b061-5ae1-4088-a7ef-33e0177f5b47" />
+
+## Доп. страницы
+<img width="1405" height="739" alt="image" src="https://github.com/user-attachments/assets/a159490a-a48e-4697-bc77-0f8a51fdb7ad" />
+<img width="1368" height="904" alt="image" src="https://github.com/user-attachments/assets/63f8ffc3-82f6-4851-84f0-1236e131183a" />
 
 
 ## 🚀 Установка
