@@ -63,8 +63,11 @@
 #  Внешний вид магазина
 
 ## Админка
-<img width="1399" height="843" alt="image" src="https://github.com/user-attachments/assets/27cc937d-fd4f-4186-a3ce-5ceae385a068" />
-<img width="1485" height="880" alt="image" src="https://github.com/user-attachments/assets/59697150-0cdd-467f-807b-77c9688dacce" />
+<img width="1429" height="845" alt="image" src="https://github.com/user-attachments/assets/6b0cb487-45d2-4d93-952f-00559c1607a8" />
+<img width="1841" height="833" alt="image" src="https://github.com/user-attachments/assets/26c9b78c-6d3b-4edf-a2d9-eac99b6584a3" />
+<img width="1820" height="926" alt="image" src="https://github.com/user-attachments/assets/9d7760bb-6d65-4bd0-bca6-0d2d7d588f5e" />
+<img width="1605" height="782" alt="image" src="https://github.com/user-attachments/assets/303868bd-a482-4d55-8cb6-87de897aef4a" />
+<img width="1505" height="587" alt="image" src="https://github.com/user-attachments/assets/15ba1f41-f618-4a08-a825-b8ced83dcaf5" />
 
 ## Главная страница, пагинация
 <img width="1605" height="880" alt="image" src="https://github.com/user-attachments/assets/72f06f32-03af-4366-99af-28b6a377c702" />
